@@ -50,7 +50,7 @@ spec:
             ignoreMissingValueFiles: true
             valueFiles:
               - $values/{{metadata.annotations.addons_repo_basepath}}config/aws/{{values.addonChart}}/{{values.addonChart}}/values.yaml
-              - $values/{{metadata.annotations.addons_repo_basepath}}config/aws/{{values.addonChart}}/{{metadata.labels.environment}}/values.yaml
+              - $values/{{metadata.annotations.addons_repo_basepath}}config/aws/{{values.addonChart}}/{{metadata.labels.environment}}.yaml
             values: |
               vpcId: '{{metadata.annotations.aws_vpc_id}}'
               clusterName: {{metadata.annotations.aws_cluster_name}}

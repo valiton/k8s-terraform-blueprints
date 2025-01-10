@@ -31,7 +31,7 @@ spec:
           - clusters:
               selector:
                 matchLabels:
-                  environment: prod
+                  environment: production
               values:
                 addonChartVersion: 3.12.0
   template:
@@ -51,7 +51,7 @@ spec:
             ignoreMissingValueFiles: true
             valueFiles:
               - $values/{{metadata.annotations.addons_repo_basepath}}config/oss/{{values.addonChart}}/{{values.addonChart}}/values.yaml
-              - $values/{{metadata.annotations.addons_repo_basepath}}config/oss/{{values.addonChart}}/{{metadata.labels.environment}}/values.yaml
+              - $values/{{metadata.annotations.addons_repo_basepath}}config/oss/{{values.addonChart}}/{{metadata.labels.environment}}.yaml
       destination:
         namespace: '{{values.addonChartNamespace}}'
         name: '{{name}}'

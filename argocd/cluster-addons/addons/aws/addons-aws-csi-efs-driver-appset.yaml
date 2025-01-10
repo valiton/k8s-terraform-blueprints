@@ -30,7 +30,7 @@ spec:
           - clusters:
               selector:
                 matchLabels:
-                  environment: prod
+                  environment: production
               values:
                 addonChartVersion: 2.5.6
   template:
@@ -50,7 +50,7 @@ spec:
             ignoreMissingValueFiles: true
             valueFiles:
               - $values/{{metadata.annotations.addons_repo_basepath}}config/aws/{{values.addonChart}}/{{values.addonChart}}/values.yaml
-              - $values/{{metadata.annotations.addons_repo_basepath}}config/aws/{{values.addonChart}}/{{metadata.labels.environment}}/values.yaml
+              - $values/{{metadata.annotations.addons_repo_basepath}}config/aws/{{values.addonChart}}/{{metadata.labels.environment}}.yaml
             values: |
               controller:
                 serviceAccount:
