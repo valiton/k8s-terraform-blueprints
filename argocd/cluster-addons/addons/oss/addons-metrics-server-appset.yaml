@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-aws-ebs-csi-resources
+  name: addons-metrics-server
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: true
@@ -12,13 +12,14 @@ spec:
         generators:
           - clusters:
               values:
-                addonChart: aws-ebs-csi-classes
+                addonChart: metrics-server
+                addonChartNamespace: kube-system
                 # anything not staging or prod use this version
-                addonChartVersion: 1.0.0
-                addonChartRepository: https://gitops-bridge-dev.github.io/gitops-bridge-helm-charts
+                addonChartVersion: 3.12.0
+                addonChartRepository: https://kubernetes-sigs.github.io/metrics-server
               selector:
                 matchExpressions:
-                  - key: enable_aws_ebs_csi_resources
+                  - key: enable_metrics_server
                     operator: In
                     values: ['true']
           - clusters:
@@ -26,13 +27,13 @@ spec:
                 matchLabels:
                   environment: staging
               values:
-                addonChartVersion: 1.0.0
+                addonChartVersion: 3.12.0
           - clusters:
               selector:
                 matchLabels:
-                  environment: production
+                  environment: prod
               values:
-                addonChartVersion: 1.0.0
+                addonChartVersion: 3.12.0
   template:
     metadata:
       name: addon-{{name}}-{{values.addonChart}}
@@ -49,13 +50,13 @@ spec:
             releaseName: '{{values.addonChart}}'
             ignoreMissingValueFiles: true
             valueFiles:
-              - $values/{{metadata.annotations.addons_repo_basepath}}config/{{values.addonChart}}/{{values.addonChart}}/values.yaml
-              - $values/{{metadata.annotations.addons_repo_basepath}}config/{{values.addonChart}}/{{metadata.labels.environment}}/values.yaml
+              - $values/{{metadata.annotations.addons_repo_basepath}}config/oss/{{values.addonChart}}/{{values.addonChart}}/values.yaml
+              - $values/{{metadata.annotations.addons_repo_basepath}}config/oss/{{values.addonChart}}/{{metadata.labels.environment}}/values.yaml
       destination:
+        namespace: '{{values.addonChartNamespace}}'
         name: '{{name}}'
       syncPolicy:
-        automated:
-          prune: false
+        automated: {}
         syncOptions:
           - CreateNamespace=true
           - ServerSideApply=true  # Big CRDs.

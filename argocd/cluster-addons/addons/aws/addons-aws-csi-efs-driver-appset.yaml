@@ -49,8 +49,8 @@ spec:
             releaseName: '{{values.addonChart}}'
             ignoreMissingValueFiles: true
             valueFiles:
-              - $values/{{metadata.annotations.addons_repo_basepath}}config/{{values.addonChart}}/{{values.addonChart}}/values.yaml
-              - $values/{{metadata.annotations.addons_repo_basepath}}config/{{values.addonChart}}/{{metadata.labels.environment}}/values.yaml
+              - $values/{{metadata.annotations.addons_repo_basepath}}config/aws/{{values.addonChart}}/{{values.addonChart}}/values.yaml
+              - $values/{{metadata.annotations.addons_repo_basepath}}config/aws/{{values.addonChart}}/{{metadata.labels.environment}}/values.yaml
             values: |
               controller:
                 serviceAccount:
