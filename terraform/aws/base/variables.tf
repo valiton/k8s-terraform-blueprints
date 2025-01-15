@@ -79,12 +79,12 @@ variable "gitops_addons_path" {
 variable "gitops_workload_org" {
   description = "Git repository org/user contains for workload"
   type        = string
-  default     = "https://github.com/gitops-bridge-dev"
+  default     = "https://github.com/valiton"
 }
 variable "gitops_workload_repo" {
   description = "Git repository contains for workload"
   type        = string
-  default     = "gitops-bridge"
+  default     = "k8s-terraform-blueprints"
 }
 variable "gitops_workload_revision" {
   description = "Git repository revision/branch/ref for workload"
@@ -94,11 +94,11 @@ variable "gitops_workload_revision" {
 variable "gitops_workload_basepath" {
   description = "Git repository base path for workload"
   type        = string
-  default     = "argocd/iac/terraform/examples/eks/"
+  default     = "k8s-workload"
 }
 variable "gitops_workload_path" {
   description = "Git repository path for workload"
   type        = string
-  default     = "getting-started/k8s"
+  default     = "addons"
 }
 

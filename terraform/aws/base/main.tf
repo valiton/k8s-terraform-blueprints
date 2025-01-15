@@ -125,6 +125,7 @@ locals {
 
   argocd_apps = {
     addons    = file("${path.module}/argocd/addons.yaml")
+    workloads = file("${path.module}/argocd/workloads.yaml")
   }
 
   tags = {
