@@ -102,3 +102,8 @@ variable "gitops_workload_path" {
   default     = "addons"
 }
 
+variable "external_dns_domain_filters" {
+  type = string
+  default = "foo.bar.com"
+}
+
