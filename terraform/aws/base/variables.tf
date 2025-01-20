@@ -107,3 +107,8 @@ variable "external_dns_domain_filters" {
   default = "foo.bar.com"
 }
 
+variable "route53_zone" {
+  default =   "123456"
+  type = string
+}
+

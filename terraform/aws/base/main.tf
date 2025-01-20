@@ -174,6 +174,7 @@ module "eks_blueprints_addons" {
   enable_aws_privateca_issuer         = local.aws_addons.enable_aws_privateca_issuer
   enable_cluster_autoscaler           = local.aws_addons.enable_cluster_autoscaler
   enable_external_dns                 = local.aws_addons.enable_external_dns
+  external_dns_route53_zone_arns      = [var.route53_zone]
   enable_external_secrets             = local.aws_addons.enable_external_secrets
   enable_aws_load_balancer_controller = local.aws_addons.enable_aws_load_balancer_controller
   enable_fargate_fluentbit            = local.aws_addons.enable_fargate_fluentbit
