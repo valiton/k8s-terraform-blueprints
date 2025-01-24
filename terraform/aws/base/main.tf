@@ -105,10 +105,10 @@ locals {
     module.eks_blueprints_addons.gitops_metadata,
     {
       external_dns_domain_filters = var.external_dns_domain_filters
-      aws_cluster_name = module.eks.cluster_name
-      aws_region       = local.region
-      aws_account_id   = data.aws_caller_identity.current.account_id
-      aws_vpc_id       = module.vpc.vpc_id
+      aws_cluster_name            = module.eks.cluster_name
+      aws_region                  = local.region
+      aws_account_id              = data.aws_caller_identity.current.account_id
+      aws_vpc_id                  = module.vpc.vpc_id
     },
     {
       addons_repo_url      = local.gitops_addons_url
@@ -144,8 +144,8 @@ module "gitops_bridge_bootstrap" {
   cluster = {
     cluster_name = module.eks.cluster_name
     environment  = var.environment
-    metadata = local.addons_metadata
-    addons   = local.addons
+    metadata     = local.addons_metadata
+    addons       = local.addons
   }
 
   apps = local.argocd_apps
@@ -184,6 +184,11 @@ module "eks_blueprints_addons" {
   enable_velero                       = local.aws_addons.enable_velero
   enable_aws_gateway_api_controller   = local.aws_addons.enable_aws_gateway_api_controller
 
+  karpenter_node = {
+    # Use static name so that it matches what is defined in `karpenter.yaml` example manifest
+    iam_role_use_name_prefix = false
+  }
+
   tags = local.tags
 }
 
@@ -204,7 +209,20 @@ module "eks" {
   subnet_ids = module.vpc.private_subnets
 
   eks_managed_node_groups = var.eks_managed_node_groups
-  
+
+  manage_aws_auth_configmap = true
+  aws_auth_roles = [
+    # We need to add in the Karpenter node IAM role for nodes launched by Karpenter
+    {
+      rolearn  = module.eks_blueprints_addons.karpenter.node_iam_role_arn
+      username = "system:node:{{EC2PrivateDNSName}}"
+      groups = [
+        "system:bootstrappers",
+        "system:nodes",
+      ]
+    },
+  ]
+
   # EKS Addons
   cluster_addons = {
     coredns    = {}
@@ -267,18 +285,18 @@ module "vpc" {
 
   public_subnet_tags_per_az = {
     eu-central-1a = {
-      Name                                            = "${local.name}-public-a",
-      "kubernetes.io/role/elb"                        = "1"
+      Name                                  = "${local.name}-public-a",
+      "kubernetes.io/role/elb"              = "1"
       "kubernetes.io/cluster/${local.name}" = "shared"
     },
     eu-central-1b = {
-      Name                                            = "${local.name}-public-b",
-      "kubernetes.io/role/elb"                        = "1"
+      Name                                  = "${local.name}-public-b",
+      "kubernetes.io/role/elb"              = "1"
       "kubernetes.io/cluster/${local.name}" = "shared"
     },
     eu-central-1c = {
-      Name                                            = "${local.name}-public-c",
-      "kubernetes.io/role/elb"                        = "1"
+      Name                                  = "${local.name}-public-c",
+      "kubernetes.io/role/elb"              = "1"
       "kubernetes.io/cluster/${local.name}" = "shared"
     }
   }
@@ -288,7 +306,7 @@ module "vpc" {
       Name                              = "${local.name}-private-a",
       "kubernetes.io/role/internal-elb" = "1",
       # Tags subnets for Karpenter auto-discovery
-      "karpenter.sh/discovery"                        = local.name
+      "karpenter.sh/discovery"              = local.name
       "kubernetes.io/cluster/${local.name}" = "shared"
 
     },
@@ -296,7 +314,7 @@ module "vpc" {
       Name                              = "${local.name}-private-b",
       "kubernetes.io/role/internal-elb" = "1",
       # Tags subnets for Karpenter auto-discovery
-      "karpenter.sh/discovery"                        = local.name
+      "karpenter.sh/discovery"              = local.name
       "kubernetes.io/cluster/${local.name}" = "shared"
 
     },
@@ -304,7 +322,7 @@ module "vpc" {
       Name                              = "${local.name}-private-c",
       "kubernetes.io/role/internal-elb" = "1"
       # Tags subnets for Karpenter auto-discovery
-      "karpenter.sh/discovery"                        = local.name
+      "karpenter.sh/discovery"              = local.name
       "kubernetes.io/cluster/${local.name}" = "shared"
     }
   }

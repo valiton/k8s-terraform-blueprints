@@ -1,6 +1,6 @@
 variable "environment" {
-  default =   "development"
-  type = string
+  default = "development"
+  type    = string
 }
 variable "base_name" {
   description = "Name of your base infrastructure"
@@ -13,7 +13,7 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 variable "azs_count" {
-  type = number
+  type    = number
   default = 2
 }
 variable "single_nat_gateway" {
@@ -28,16 +28,16 @@ variable "region" {
 variable "eks_managed_node_groups" {
   description = "EKS manages nodegroups"
   type        = any
-  default = {    
+  default = {
     initial = {
       instance_types = ["t3.micro"]
-      capacity_type          = "SPOT" #"ON_DEMAND"
-      min_size     = 1
-      max_size     = 3
-      desired_size = 2
+      capacity_type  = "SPOT" #"ON_DEMAND"
+      min_size       = 1
+      max_size       = 3
+      desired_size   = 2
     }
   }
-} 
+}
 variable "kubernetes_version" {
   description = "Kubernetes version"
   type        = string
@@ -46,7 +46,7 @@ variable "kubernetes_version" {
 variable "addons" {
   description = "Kubernetes addons"
   type        = any
-  default = {}
+  default     = {}
 }
 # Addons Git
 variable "gitops_addons_org" {
@@ -103,12 +103,12 @@ variable "gitops_workload_path" {
 }
 
 variable "external_dns_domain_filters" {
-  type = string
+  type    = string
   default = "foo.bar.com"
 }
 
 variable "route53_zone" {
-  default =   "123456"
-  type = string
+  default = "123456"
+  type    = string
 }
 
