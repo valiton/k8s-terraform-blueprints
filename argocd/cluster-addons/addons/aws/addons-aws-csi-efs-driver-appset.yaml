@@ -14,7 +14,7 @@ spec:
               values:
                 addonChart: aws-efs-csi-driver
                 # anything not staging or prod use this version
-                addonChartVersion: 2.5.6
+                addonChartVersion: 3.1.5
                 addonChartRepository: https://kubernetes-sigs.github.io/aws-efs-csi-driver
               selector:
                 matchExpressions:
@@ -26,13 +26,13 @@ spec:
                 matchLabels:
                   environment: staging
               values:
-                addonChartVersion: 2.5.6
+                addonChartVersion: 3.1.5
           - clusters:
               selector:
                 matchLabels:
                   environment: production
               values:
-                addonChartVersion: 2.5.6
+                addonChartVersion: 3.1.5
   template:
     metadata:
       name: addon-{{name}}-{{values.addonChart}}
