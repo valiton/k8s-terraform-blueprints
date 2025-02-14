@@ -2,5 +2,5 @@ local/
 *.tgz
 Chart.lock
 .DS_Store
-terragrunt
+terragrunt*
 example-workload
