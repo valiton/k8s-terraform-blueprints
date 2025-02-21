@@ -18,7 +18,7 @@ variable "azs_count" {
 }
 variable "single_nat_gateway" {
   type    = bool
-  default = true
+  default = false
 }
 variable "region" {
   description = "AWS region"
@@ -30,8 +30,9 @@ variable "eks_managed_node_groups" {
   type        = any
   default = {
     initial = {
-      instance_types = ["t3.micro"]
-      capacity_type  = "SPOT" #"ON_DEMAND"
+      instance_types = ["t4g.medium"]
+      ami_type       = "AL2023_ARM_64_STANDARD"
+      capacity_type  = "ON_DEMAND"
       min_size       = 1
       max_size       = 3
       desired_size   = 2
@@ -41,7 +42,7 @@ variable "eks_managed_node_groups" {
 variable "kubernetes_version" {
   description = "Kubernetes version"
   type        = string
-  default     = "1.31"
+  default     = "1.32"
 }
 variable "addons" {
   description = "Kubernetes addons"
@@ -102,6 +103,7 @@ variable "gitops_workload_path" {
   default     = "addons"
 }
 
+# external dns
 variable "external_dns_domain_filters" {
   type    = string
   default = "foo.bar.com"
