@@ -10,7 +10,7 @@ variable "base_name" {
 variable "vpc_cidr" {
   description = "VPC CIDR"
   type        = string
-  default     = "10.0.0.0/16"
+  default     = ""
 }
 variable "azs_count" {
   type    = number
@@ -47,7 +47,16 @@ variable "kubernetes_version" {
 variable "addons" {
   description = "Kubernetes addons"
   type        = any
-  default     = {}
+  default     =  {
+    enable_aws_ebs_csi_resources        = true
+    enable_metrics_server               = true
+    enable_aws_efs_csi_driver           = true
+    enable_aws_load_balancer_controller = true
+    enable_external_secrets             = true
+    enable_external_dns                 = true
+    enable_karpenter                    = true
+  }
+
 }
 # Addons Git
 variable "gitops_addons_org" {
