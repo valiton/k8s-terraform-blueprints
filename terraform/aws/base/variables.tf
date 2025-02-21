@@ -115,7 +115,7 @@ variable "gitops_workload_path" {
 # external dns
 variable "external_dns_domain_filters" {
   type    = string
-  default = "*"
+  default = "example.org"
 }
 
 variable "route53_zone" {
