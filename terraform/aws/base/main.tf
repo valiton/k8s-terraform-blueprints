@@ -42,7 +42,7 @@ locals {
 
   cluster_version = var.kubernetes_version
 
-  vpc_cidr = vpc_cidr != "" ? var.vpc_cidr : "10.${random_integer.ip_part.result}.0.0/16"
+  vpc_cidr = var.vpc_cidr != "" ? var.vpc_cidr : "10.${random_integer.ip_part.result}.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, var.azs_count)
 
   gitops_addons_url      = "${var.gitops_addons_org}/${var.gitops_addons_repo}"
