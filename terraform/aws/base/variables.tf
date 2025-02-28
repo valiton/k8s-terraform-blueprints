@@ -51,6 +51,11 @@ variable "base_node_groups" {
       }
     }
   }
+
+  validation {
+    condition     = can(coalesce(lookup(var.base_node_groups, "base_eks_node", null)))
+    error_message = "The 'base_eks_node' key must always exist and cannot be removed."
+  }
 }
 variable "eks_managed_node_groups" {
   description = "EKS manages nodegroups"
