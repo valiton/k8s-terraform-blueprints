@@ -32,6 +32,3 @@ output "access_argocd" {
     EOT
 }
 
-output "debug" {
-  value = yamlencode(module.eks.eks_managed_node_groups["base_eks_node"])
-}
