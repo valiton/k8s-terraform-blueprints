@@ -25,19 +25,37 @@ variable "region" {
   type        = string
   default     = "eu-central-1"
 }
-variable "eks_managed_node_groups" {
-  description = "EKS manages nodegroups"
-  type        = any
+
+variable "base_nodepool" {
+  type    = string
+  default = "base"
+}
+
+variable "base_nodepool_label" {
+  type    = string
+  default = "base_node_pool"
+}
+
+variable "base_node_groups" {
+  type = any
   default = {
-    initial = {
+    base_eks_node = {
       instance_types = ["t4g.medium"]
       ami_type       = "AL2023_ARM_64_STANDARD"
       capacity_type  = "ON_DEMAND"
       min_size       = 1
       max_size       = 3
       desired_size   = 2
+      labels = {
+        base_nodepool = "base"
+      }
     }
   }
+}
+variable "eks_managed_node_groups" {
+  description = "EKS manages nodegroups"
+  type        = any
+  default     = {}
 }
 variable "kubernetes_version" {
   description = "Kubernetes version"
@@ -47,7 +65,7 @@ variable "kubernetes_version" {
 variable "addons" {
   description = "Kubernetes addons"
   type        = any
-  default     =  {
+  default = {
     enable_aws_ebs_csi_resources        = true
     enable_metrics_server               = true
     enable_aws_efs_csi_driver           = true

@@ -31,3 +31,7 @@ output "access_argocd" {
     echo "ArgoCD URL: https://$(kubectl get svc -n argocd argo-cd-argocd-server -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
     EOT
 }
+
+output "debug" {
+  value = yamlencode(module.eks.eks_managed_node_groups["base_eks_node"])
+}
