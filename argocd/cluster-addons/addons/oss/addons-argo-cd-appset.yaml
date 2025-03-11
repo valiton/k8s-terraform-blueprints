@@ -53,8 +53,9 @@ spec:
               - $values/{{metadata.annotations.addons_repo_basepath}}config/oss/{{values.addonChart}}/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.addons_repo_basepath}}config/oss/{{values.addonChart}}/{{metadata.labels.environment}}.yaml
             values: |
-              timeout:
-                reconciliation: 60s
+              configs:
+                cm:
+                  timeout.reconciliation: 60s
       destination:
         namespace: '{{values.addonChartRepositoryNamespace}}'
         name: '{{name}}'
