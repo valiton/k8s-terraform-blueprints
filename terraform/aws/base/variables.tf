@@ -72,7 +72,7 @@ variable "addons" {
   type        = any
   default = {
     enable_aws_ebs_csi_resources        = true
-    enable_metrics_server               = true
+    enable_metrics_server               = false
     enable_aws_efs_csi_driver           = true
     enable_aws_load_balancer_controller = true
     enable_external_secrets             = true
