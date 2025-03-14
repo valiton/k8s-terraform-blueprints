@@ -114,7 +114,7 @@ locals {
       aws_region                  = local.region
       aws_account_id              = data.aws_caller_identity.current.account_id
       aws_vpc_id                  = module.vpc.vpc_id
-      base_nodepool_labels        = yamlencode(module.eks.eks_managed_node_group["base_eks_node"].node_group_labels)
+      base_nodepool_labels        = yamlencode(module.eks.eks_managed_node_groups["base_eks_node"].node_group_labels)
     },
     {
       addons_repo_url      = local.gitops_addons_url
