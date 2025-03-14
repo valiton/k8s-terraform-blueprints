@@ -26,17 +26,7 @@ variable "region" {
   default     = "eu-central-1"
 }
 
-variable "base_nodepool" {
-  type    = string
-  default = "base"
-}
-
-variable "base_nodepool_label" {
-  type    = string
-  default = "base_node_pool"
-}
-
-variable "base_node_groups" {
+variable "base_node_group" {
   type = any
   default = {
     base_eks_node = {
@@ -53,8 +43,8 @@ variable "base_node_groups" {
   }
 
   validation {
-    condition     = can(coalesce(lookup(var.base_node_groups, "base_eks_node", null)))
-    error_message = "The 'base_eks_node' key must always exist and cannot be removed."
+    condition     = can(coalesce(lookup(var.base_node_group, "base_eks_node", null)))
+    error_message = "The 'base_eks_node' key must always exist and cannot be removed or renamed."
   }
 }
 variable "eks_managed_node_groups" {
