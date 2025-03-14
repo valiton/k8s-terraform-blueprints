@@ -45,7 +45,7 @@ The following variables are specific to the EKS cluster:
 
 | Variable                 | Type          | Description                                  | Default           |
 |--------------------------|---------------|----------------------------------------------|-------------------|
-| `base_node_group`            | `any`      | Base node groups that is used for our addon components (e.g. monitoring, scaling etc.)                   | `base_eks_node = {}`          |
+| `base_node_group`            | `any`      | Base node group that is used for our addon components (e.g. monitoring, scaling etc.)                   | `base_eks_node = {}`          |
 | `eks_managed_node_groups`            | `string`      | Additional fixed EKS manages nodegroups (not recommended, use Karpenter)                  | `{}`          |
 | `kubernetes_version`            | `string`      | Kubernetes version for EKS                   | `"1.32"`          |
 | `addons`            | `string`      |Kubernetes addons that are deployed automatically, supported options are here: `enable_aws_ebs_csi_resources`, `enable_metrics_server`, `enable_aws_efs_csi_driver`, `enable_aws_load_balancer_controller`, `enable_external_secrets`, `enable_external_dns`, `enable_karpenter`. By default all plugins are deployed. | <code> { <br>&emsp; enable_aws_ebs_csi_resources = true<br> &emsp; enable_metrics_server               = true<br> &emsp; enable_aws_efs_csi_driver           = true<br> &emsp; enable_aws_load_balancer_controller = true<br> &emsp; enable_external_secrets             = true<br> &emsp; enable_external_dns                 = true<br> &emsp; enable_karpenter                    = true<br>}</code> |
