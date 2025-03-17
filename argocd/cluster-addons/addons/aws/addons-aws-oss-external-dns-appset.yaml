@@ -54,6 +54,8 @@ spec:
               - $values/{{.metadata.annotations.addons_repo_basepath}}config/aws/{{.values.addonChart}}/{{.metadata.labels.environment}}.yaml
             values: |
               provider: aws
+              nodeSelector: 
+                {{.metadata.annotations.base_nodepool_labels}}
               serviceAccount:
                 name: {{.metadata.annotations.external_dns_service_account}}
                 annotations:
