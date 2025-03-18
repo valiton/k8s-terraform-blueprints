@@ -52,6 +52,9 @@ spec:
             valueFiles:
               - $values/{{metadata.annotations.addons_repo_basepath}}config/oss/{{values.addonChart}}/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.addons_repo_basepath}}config/oss/{{values.addonChart}}/{{metadata.labels.environment}}.yaml
+            values: |
+              nodeSelector: 
+                {{metadata.annotations.base_nodepool_labels}}
       destination:
         namespace: '{{values.addonChartNamespace}}'
         name: '{{name}}'
