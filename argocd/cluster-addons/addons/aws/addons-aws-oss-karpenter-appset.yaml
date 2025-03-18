@@ -57,7 +57,6 @@ spec:
             values: |
               nodeSelector: 
                 {{.metadata.annotations.base_nodepool_labels}}
-                kubernetes.io/os: linux
               settings:
                 clusterName: {{metadata.annotations.aws_cluster_name}}
                 interruptionQueue: {{metadata.annotations.karpenter_sqs_queue_name}}
