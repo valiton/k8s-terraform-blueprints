@@ -53,6 +53,9 @@ spec:
               - $values/{{metadata.annotations.addons_repo_basepath}}config/oss/{{values.addonChart}}/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.addons_repo_basepath}}config/oss/{{values.addonChart}}/{{metadata.labels.environment}}.yaml
             values: |
+              global:
+                nodeSelector:
+                  {{metadata.annotations.base_nodepool_labels}}
               configs:
                 cm:
                   timeout.reconciliation: 20s
