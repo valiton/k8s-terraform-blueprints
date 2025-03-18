@@ -56,7 +56,7 @@ spec:
               - $values/{{metadata.annotations.addons_repo_basepath}}config/aws/{{values.addonChart}}/{{metadata.labels.environment}}.yaml
             values: |
               nodeSelector: 
-                {{.metadata.annotations.base_nodepool_labels}}
+                {{metadata.annotations.base_nodepool_labels}}
               settings:
                 clusterName: {{metadata.annotations.aws_cluster_name}}
                 interruptionQueue: {{metadata.annotations.karpenter_sqs_queue_name}}
