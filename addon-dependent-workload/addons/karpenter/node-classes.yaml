@@ -5,21 +5,21 @@ metadata:
 spec:
   # Required, resolves a default ami and userdata
   amiFamily: AL2
-  role: "karpenter-{{metadata.annotations.aws_cluster_name}}" 
+  role: "karpenter-${AWS_CLUSTER_NAME}" 
   # Required, discovers subnets to attach to instances
   subnetSelectorTerms:
     - tags:
-        karpenter.sh/discovery: {{metadata.annotations.aws_cluster_name}}
+        karpenter.sh/discovery: ${AWS_CLUSTER_NAME}
   
   # Required, discovers security groups to attach to instances
   securityGroupSelectorTerms:
     - tags:
-        karpenter.sh/discovery: {{metadata.annotations.aws_cluster_name}}
+        karpenter.sh/discovery: ${AWS_CLUSTER_NAME}
 
   amiSelectorTerms:
     - id: ami-04a9dbc6ca92c5ea0 #"ami-049e49d359c8505cc"
 
   tags:
-    Name: "{{metadata.annotations.aws_cluster_name}}-Karpenter-Instance"
+    Name: "${AWS_CLUSTER_NAME}-Karpenter-Instance"
 
 

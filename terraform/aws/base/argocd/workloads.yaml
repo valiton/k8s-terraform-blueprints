@@ -23,6 +23,8 @@ spec:
         targetRevision: '{{metadata.annotations.workload_repo_revision}}'
         directory:
           recurse: true
+          env:
+            AWS_CLUSTER_NAME: '{{metadata.annotations.aws_cluster_name}}'
       destination:
         name: '{{name}}'
       syncPolicy:
