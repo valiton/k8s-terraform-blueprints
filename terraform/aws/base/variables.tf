@@ -142,7 +142,7 @@ variable "route53_zone" {
 # karpenter
 #
 # aws ssm get-parameter --name "/aws/service/eks/optimized-ami/1.32/amazon-linux-2023/arm64/standard/recommended/image_id" --region eu-central-1 --query "Parameter.Value" --output text
-variable "eks_image_arm64_alias" {
+variable "eks_image_arm64" {
   description = "Recommended Amazon Linux AMI ID for AL2023 ARM instances."
   type    = string
   default = "ami-09b9ca376adb3607c"
