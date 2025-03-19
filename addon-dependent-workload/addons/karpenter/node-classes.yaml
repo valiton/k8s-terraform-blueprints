@@ -3,15 +3,12 @@ kind: EC2NodeClass
 metadata:
   name: default
 spec:
-  # Required, resolves a default ami and userdata
   amiFamily: AL2
   role: "karpenter-{{ .Values.karpenter.settings.clusterName }}" 
-  # Required, discovers subnets to attach to instances
   subnetSelectorTerms:
     - tags:
         karpenter.sh/discovery: {{ .Values.karpenter.settings.clusterName }}
   
-  # Required, discovers security groups to attach to instances
   securityGroupSelectorTerms:
     - tags:
         karpenter.sh/discovery: {{ .Values.karpenter.settings.clusterName }}
