@@ -1,7 +1,7 @@
 apiVersion: karpenter.k8s.aws/v1
 kind: EC2NodeClass
 metadata:
-  name: default
+  name: default_x86_64
 spec:
   amiFamily: AL2
   role: "karpenter-{{ .Values.karpenter.settings.clusterName }}" 
@@ -14,9 +14,35 @@ spec:
         karpenter.sh/discovery: {{ .Values.karpenter.settings.clusterName }}
 
   amiSelectorTerms:
-    - id: {{ .Values.karpenter.settings.amiSelector.amd }} #"ami-049e49d359c8505cc"
+    - id: {{ .Values.karpenter.settings.eks_image.x86_64 }}
 
   tags:
     Name: "{{ .Values.karpenter.settings.clusterName }}-Karpenter-Instance"
+
+---
+
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: default_arm64
+spec:
+  amiFamily: AL2
+  role: "karpenter-{{ .Values.karpenter.settings.clusterName }}" 
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: {{ .Values.karpenter.settings.clusterName }}
+  
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: {{ .Values.karpenter.settings.clusterName }}
+
+  amiSelectorTerms:
+    - id: {{ .Values.karpenter.settings.eks_image.arm64 }}
+
+  tags:
+    Name: "{{ .Values.karpenter.settings.clusterName }}-Karpenter-Instance"
+
+
+
 
 
