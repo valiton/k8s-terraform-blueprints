@@ -1,0 +1,25 @@
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: default
+spec:
+  # Required, resolves a default ami and userdata
+  amiFamily: AL2
+  role: "karpenter-{{metadata.annotations.aws_cluster_name}}" 
+  # Required, discovers subnets to attach to instances
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: {{metadata.annotations.aws_cluster_name}}
+  
+  # Required, discovers security groups to attach to instances
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: {{metadata.annotations.aws_cluster_name}}
+
+  amiSelectorTerms:
+    - id: ami-04a9dbc6ca92c5ea0 #"ami-049e49d359c8505cc"
+
+  tags:
+    Name: "{{metadata.annotations.aws_cluster_name}}-Karpenter-Instance"
+
+
