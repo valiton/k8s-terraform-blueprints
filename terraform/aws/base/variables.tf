@@ -118,7 +118,7 @@ variable "gitops_workload_revision" {
 variable "gitops_workload_basepath" {
   description = "Git repository base path for workload"
   type        = string
-  default     = "addon-dependent-workload/vendors"
+  default     = "addon-dependent-workload/vendors/"
 }
 variable "gitops_workload_path" {
   description = "Git repository path for workload"
