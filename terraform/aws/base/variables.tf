@@ -68,6 +68,7 @@ variable "addons" {
     enable_external_secrets             = true
     enable_external_dns                 = true
     enable_karpenter                    = true
+    enable_kube_prometheus_stack        = true
   }
 
 }
