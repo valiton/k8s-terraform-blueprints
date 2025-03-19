@@ -23,8 +23,14 @@ spec:
         targetRevision: '{{metadata.annotations.workload_repo_revision}}'
         directory:
           recurse: true
-          env:
-            AWS_CLUSTER_NAME: '{{metadata.annotations.aws_cluster_name}}'
+        helm:
+          values: |
+            karpenter:
+              settings: 
+                clusterName: {{metadata.annotations.aws_cluster_name}}
+                eks_image:
+                  x86_64: {{metadata.annotations.eks_image_x86_64}}
+                  arm64: {{metadata.annotations.eks_image_arm64}}
       destination:
         name: '{{name}}'
       syncPolicy:

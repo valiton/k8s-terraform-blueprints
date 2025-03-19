@@ -128,12 +128,30 @@ variable "gitops_workload_path" {
 
 # external dns
 variable "external_dns_domain_filters" {
+  description = "Limit possible target zones by domain suffixes."
   type    = string
   default = "['example.org']"
 }
 
 variable "route53_zone" {
+  description = "Limit possible route53 zones."
   default = "*"
   type    = string
+}
+
+# karpenter
+#
+# aws ssm get-parameter --name "/aws/service/eks/optimized-ami/1.32/amazon-linux-2023/arm64/standard/recommended/image_id" --region eu-central-1 --query "Parameter.Value" --output text
+variable "eks_image_arm64_alias" {
+  description = "Recommended Amazon Linux AMI ID for AL2023 ARM instances."
+  type    = string
+  default = "ami-09b9ca376adb3607c"
+}
+
+# aws ssm get-parameter --name "/aws/service/eks/optimized-ami/1.32/amazon-linux-2023/x86_64/standard/recommended/image_id" --region eu-central-1 --query "Parameter.Value" --output text
+variable "eks_image_x86_64" {
+  description = "Recommended Amazon Linux AMI ID for AL2023 x86 based instances."
+  type    = string
+  default = "ami-0239e3e7b036949c1"
 }
 
