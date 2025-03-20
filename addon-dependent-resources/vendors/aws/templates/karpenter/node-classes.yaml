@@ -17,7 +17,7 @@ spec:
     - id: {{ .Values.karpenter.settings.eks_image.x86_64 }}
 
   tags:
-    Name: "{{ .Values.karpenter.settings.clusterName }}-karpenter-instance-x86-64"
+    Name: "{{ .Values.karpenter.settings.clusterName }}-karpenter-instance-x86"
 
 ---
 
