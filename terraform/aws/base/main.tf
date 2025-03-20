@@ -117,6 +117,7 @@ locals {
       base_nodepool_labels        = yamlencode(module.eks.eks_managed_node_groups["base_eks_node"].node_group_labels)
       eks_image_arm64             = var.eks_image_arm64
       eks_image_x86_64            = var.eks_image_x86_64
+      vpc_private_subnets         = module.eks.private_subnets
     },
     {
       addons_repo_url      = local.gitops_addons_url
@@ -195,6 +196,7 @@ module "eks_blueprints_addons" {
   karpenter_node = {
     # Use static name so that it matches what is defined in `karpenter.yaml` example manifest
     iam_role_use_name_prefix = false
+    iam_role_additional_policies = ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
   }
 
   tags = local.tags
