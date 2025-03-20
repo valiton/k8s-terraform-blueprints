@@ -206,7 +206,7 @@ module "eks_blueprints_addons" {
 #tfsec:ignore:aws-eks-enable-control-plane-logging
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 19.13"
+  version = "~> 20.34"
 
   cluster_name                   = local.name
   cluster_version                = local.cluster_version
@@ -262,7 +262,7 @@ module "eks" {
 }
 module "ebs_csi_driver_irsa" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  version = "~> 5.20"
+  version = "~> 5.54"
 
   role_name_prefix = "${module.eks.cluster_name}-ebs-csi-"
 
@@ -283,7 +283,7 @@ module "ebs_csi_driver_irsa" {
 ################################################################################
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.0"
+  version = "~> 5.19"
 
   name = local.name
   cidr = local.vpc_cidr
