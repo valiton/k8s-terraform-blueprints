@@ -26,9 +26,14 @@ spec:
           operator: Gt
           values: ["2000"]
       nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
         name: default-arm64
+      expireAfter: 720h
   limits:
     cpu: "128"
     memory: 32Gi
   disruption:
-    expireAfter: 720h # 30 * 24h = 720h
+    consolidationPolicy: WhenEmptyOrUnderutilized
+    consolidateAfter: 1m
+
