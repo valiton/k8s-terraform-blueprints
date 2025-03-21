@@ -26,27 +26,56 @@ variable "region" {
   default     = "eu-central-1"
 }
 
-variable "base_node_group" {
+variable "base_node_group_name" {
+  type        = string
+  default     = "base_eks_node"
+  description = "Name of the base node group"
+}
+
+variable "base_node_group_instance_types" {
+  type        = list(string)
+  default     = ["t4g.medium"]
+  description = "List with instance types that are used in the base node group"
+}
+
+variable "base_node_group_ami_type" {
+  type        = string
+  default     = "AL2023_ARM_64_STANDARD"
+  description = "AMI type used by the base node group"
+}
+
+variable "base_node_group_capacity_type" {
+  type        = string
+  default     = "ON_DEMAND"
+  description = "Capacity types used by the base node group"
+}
+
+variable "base_node_group_min_size" {
+  type        = number
+  default     = 1
+  description = "Min instance count of the base node group"
+}
+
+variable "base_node_group_max_size" {
+  type        = number
+  default     = 3
+  description = "Max instance count of the base node group"
+}
+
+variable "base_node_group_desired_size" {
+  type        = number
+  default     = 2
+  description = "Initial desired instance count of the base node group"
+}
+
+variable "base_node_group_labels" {
   type = any
   default = {
-    base_eks_node = {
-      instance_types = ["t4g.medium"]
-      ami_type       = "AL2023_ARM_64_STANDARD"
-      capacity_type  = "ON_DEMAND"
-      min_size       = 1
-      max_size       = 3
-      desired_size   = 2
-      labels = {
-        base_nodepool = "base"
-      }
-    }
+    base_nodepool = "base"
   }
-
-  validation {
-    condition     = can(coalesce(lookup(var.base_node_group, "base_eks_node", null)))
-    error_message = "The 'base_eks_node' key must always exist and cannot be removed or renamed."
-  }
+  description = "Labels of the base node group"
 }
+
 variable "eks_managed_node_groups" {
   description = "EKS manages nodegroups"
   type        = any
@@ -129,14 +158,14 @@ variable "gitops_workload_path" {
 # external dns
 variable "external_dns_domain_filters" {
   description = "Limit possible target zones by domain suffixes."
-  type    = string
-  default = "['example.org']"
+  type        = string
+  default     = "['example.org']"
 }
 
 variable "route53_zone" {
   description = "Limit possible route53 zones."
-  default = "*"
-  type    = string
+  default     = "*"
+  type        = string
 }
 
 # karpenter
@@ -144,14 +173,14 @@ variable "route53_zone" {
 # aws ssm get-parameter --name "/aws/service/eks/optimized-ami/1.32/amazon-linux-2023/arm64/standard/recommended/image_id" --region eu-central-1 --query "Parameter.Value" --output text
 variable "eks_image_arm64" {
   description = "Recommended Amazon Linux AMI ID for AL2023 ARM instances."
-  type    = string
-  default = "ami-09b9ca376adb3607c"
+  type        = string
+  default     = "ami-09b9ca376adb3607c"
 }
 
 # aws ssm get-parameter --name "/aws/service/eks/optimized-ami/1.32/amazon-linux-2023/x86_64/standard/recommended/image_id" --region eu-central-1 --query "Parameter.Value" --output text
 variable "eks_image_x86_64" {
   description = "Recommended Amazon Linux AMI ID for AL2023 x86 based instances."
-  type    = string
-  default = "ami-0239e3e7b036949c1"
+  type        = string
+  default     = "ami-0239e3e7b036949c1"
 }
 

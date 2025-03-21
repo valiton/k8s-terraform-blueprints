@@ -114,7 +114,7 @@ locals {
       aws_region                  = local.region
       aws_account_id              = data.aws_caller_identity.current.account_id
       aws_vpc_id                  = module.vpc.vpc_id
-      base_nodepool_labels        = yamlencode(module.eks.eks_managed_node_groups["base_eks_node"].node_group_labels)
+      base_nodepool_labels        = yamlencode(module.eks_managed_node_group.node_group_labels)
       eks_image_arm64             = var.eks_image_arm64
       eks_image_x86_64            = var.eks_image_x86_64
     },
@@ -194,7 +194,7 @@ module "eks_blueprints_addons" {
 
   karpenter_node = {
     # Use static name so that it matches what is defined in `karpenter.yaml` example manifest
-    iam_role_use_name_prefix = false
+    iam_role_use_name_prefix     = false
     iam_role_additional_policies = ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
   }
 
@@ -217,7 +217,7 @@ module "eks" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
-  eks_managed_node_groups = merge(var.eks_managed_node_groups, var.base_node_group)
+  eks_managed_node_groups = var.eks_managed_node_groups
 
   manage_aws_auth_configmap = true
   aws_auth_roles = [
@@ -232,7 +232,7 @@ module "eks" {
     },
   ]
 
-  # EKS Addons
+  # EKS Addonsy
   cluster_addons = {
     coredns    = {}
     kube-proxy = {}
@@ -261,6 +261,35 @@ module "eks" {
     "karpenter.sh/discovery" = local.name
   })
 }
+
+module "eks_managed_node_group" {
+  source = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
+
+  name            = var.base_node_group_name
+  cluster_name    = module.eks.cluster_name
+  cluster_version = module.eks.cluster_version
+
+  subnet_ids = module.vpc.private_subnets
+
+  cluster_service_cidr = local.vpc_cidr
+
+  // The following variables are necessary if you decide to use the module outside of the parent EKS module context.
+  // Without it, the security groups of the nodes are empty and thus won't join the cluster.
+  cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
+  vpc_security_group_ids            = [module.eks.node_security_group_id]
+
+  min_size     = var.base_node_group_min_size
+  max_size     = var.base_node_group_max_size
+  desired_size = var.base_node_group_desired_size
+
+  instance_types = var.base_node_group_instance_types
+  capacity_type  = var.base_node_group_capacity_type
+  ami_type       = var.base_node_group_ami_type
+
+  labels = var.base_node_group_labels
+
+}
+
 module "ebs_csi_driver_irsa" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   version = "~> 5.54"
