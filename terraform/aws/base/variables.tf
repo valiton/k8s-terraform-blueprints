@@ -26,56 +26,27 @@ variable "region" {
   default     = "eu-central-1"
 }
 
-variable "base_node_group_name" {
-  type        = string
-  default     = "base_eks_node"
-  description = "Name of the base node group"
-}
-
-variable "base_node_group_instance_types" {
-  type        = list(string)
-  default     = ["t4g.medium"]
-  description = "List with instance types that are used in the base node group"
-}
-
-variable "base_node_group_ami_type" {
-  type        = string
-  default     = "AL2023_ARM_64_STANDARD"
-  description = "AMI type used by the base node group"
-}
-
-variable "base_node_group_capacity_type" {
-  type        = string
-  default     = "ON_DEMAND"
-  description = "Capacity types used by the base node group"
-}
-
-variable "base_node_group_min_size" {
-  type        = number
-  default     = 1
-  description = "Min instance count of the base node group"
-}
-
-variable "base_node_group_max_size" {
-  type        = number
-  default     = 3
-  description = "Max instance count of the base node group"
-}
-
-variable "base_node_group_desired_size" {
-  type        = number
-  default     = 2
-  description = "Initial desired instance count of the base node group"
-}
-
-variable "base_node_group_labels" {
+variable "base_node_group" {
   type = any
   default = {
-    base_nodepool = "base"
+    base_eks_node = {
+      instance_types = ["t4g.medium"]
+      ami_type       = "AL2023_ARM_64_STANDARD"
+      capacity_type  = "ON_DEMAND"
+      min_size       = 1
+      max_size       = 3
+      desired_size   = 2
+      labels = {
+        base_nodepool = "base"
+      }
+    }
   }
-  description = "Labels of the base node group"
-}
 
+  validation {
+    condition     = can(coalesce(lookup(var.base_node_group, "base_eks_node", null)))
+    error_message = "The 'base_eks_node' key must always exist and cannot be removed or renamed."
+  }
+}
 variable "eks_managed_node_groups" {
   description = "EKS manages nodegroups"
   type        = any
