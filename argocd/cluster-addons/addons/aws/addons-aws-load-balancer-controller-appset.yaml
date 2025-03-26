@@ -53,7 +53,7 @@ spec:
               - $values/{{metadata.annotations.addons_repo_basepath}}config/aws/{{values.addonChart}}/{{metadata.labels.environment}}.yaml
             values: |
               nodeSelector: 
-                {{metadata.annotations.base_nodepool_labels}}
+                {{ toYaml metadata.annotations.base_nodepool_labels | indent 2 }}
               vpcId: '{{metadata.annotations.aws_vpc_id}}'
               clusterName: {{metadata.annotations.aws_cluster_name}}
               serviceAccount:

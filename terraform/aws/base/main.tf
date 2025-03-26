@@ -45,6 +45,17 @@ locals {
   vpc_cidr = var.vpc_cidr != "" ? var.vpc_cidr : "10.${random_integer.ip_part.result}.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, var.azs_count)
 
+  base_node_group = {
+    base_eks_node = {
+      instance_types = var.base_node_group_instance_types
+      ami_type       = var.base_node_group_ami_type
+      capacity_type  = var.base_node_group_capacity_type
+      min_size       = var.base_node_group_min_size
+      max_size       = var.base_node_group_max_size
+      desired_size   = var.base_node_group_desired_size
+      labels         = var.base_node_group_labels
+    }
+  }
   gitops_addons_url      = "${var.gitops_addons_org}/${var.gitops_addons_repo}"
   gitops_addons_basepath = var.gitops_addons_basepath
   gitops_addons_path     = var.gitops_addons_path
@@ -217,7 +228,7 @@ module "eks" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
-  eks_managed_node_groups = merge(var.eks_managed_node_groups, var.base_node_group)
+  eks_managed_node_groups = merge(var.eks_managed_node_groups, local.base_node_group)
 
   manage_aws_auth_configmap = true
   aws_auth_roles = [
