@@ -5,7 +5,7 @@ metadata:
   name: addons-aws-ebs-csi-resources
 spec:
   syncPolicy:
-    preserveResourcesOnDeletion: truecd ../
+    preserveResourcesOnDeletion: true
   generators:
     - merge:
         mergeKeys: [server]
