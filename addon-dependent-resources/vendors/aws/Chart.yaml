@@ -1,5 +1,5 @@
 apiVersion: v2
-name: addon-dependent-workload
-description: Addon specific workload
+name: aws-addon-dependent-workload
+description: AWS Addon specific workload
 type: application
 version: 0.1.0

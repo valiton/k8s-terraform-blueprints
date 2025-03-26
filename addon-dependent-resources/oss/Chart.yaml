@@ -1,0 +1,5 @@
+apiVersion: v2
+name: oss-addon-dependent-workload
+description: OSS Addon specific workload
+type: application
+version: 0.1.0

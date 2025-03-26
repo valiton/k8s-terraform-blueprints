@@ -152,7 +152,7 @@ variable "gitops_workload_revision" {
 variable "gitops_oss_workload_basepath" {
   description = "Git repository base path for oss specific addon resources"
   type        = string
-  default     = "addon-dependent-resources"
+  default     = "addon-dependent-resources/"
 }
 variable "gitops_oss_workload_path" {
   description = "Git repository path for oss specific addon resources"
