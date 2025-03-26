@@ -125,7 +125,7 @@ locals {
       aws_region                  = local.region
       aws_account_id              = data.aws_caller_identity.current.account_id
       aws_vpc_id                  = module.vpc.vpc_id
-      base_nodepool_labels        = yamlencode(module.eks.eks_managed_node_groups["base_eks_node"].node_group_labels)
+      base_nodepool_labels        = jsonencode(module.eks.eks_managed_node_groups["base_eks_node"].node_group_labels)
       eks_image_arm64             = var.eks_image_arm64
       eks_image_x86_64            = var.eks_image_x86_64
     },
