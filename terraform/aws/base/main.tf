@@ -56,22 +56,22 @@ locals {
       labels         = var.base_node_group_labels
     }
   }
-  gitops_addons_url      = "${var.gitops_addons_org}/${var.gitops_addons_repo}"
-  gitops_addons_revision = var.gitops_addons_revision
-  gitops_vendor_addons_basepath = var.gitops_vendor_addons_basepath
-  gitops_vendor_addons_path     = var.gitops_vendor_addons_path
-  gitops_vendor_addon_config_path     = var.gitops_vendor_addon_config_path
-  gitops_oss_addons_basepath = var.gitops_oss_addons_basepath
-  gitops_oss_addons_path     = var.gitops_oss_addons_path
-  gitops_oss_addon_config_path     = var.gitops_oss_addon_config_path
+  gitops_addons_url               = "${var.gitops_addons_org}/${var.gitops_addons_repo}"
+  gitops_addons_revision          = var.gitops_addons_revision
+  gitops_vendor_addons_basepath   = var.gitops_vendor_addons_basepath
+  gitops_vendor_addons_path       = var.gitops_vendor_addons_path
+  gitops_vendor_addon_config_path = var.gitops_vendor_addon_config_path
+  gitops_oss_addons_basepath      = var.gitops_oss_addons_basepath
+  gitops_oss_addons_path          = var.gitops_oss_addons_path
+  gitops_oss_addon_config_path    = var.gitops_oss_addon_config_path
 
 
-  gitops_workload_url      = "${var.gitops_workload_org}/${var.gitops_workload_repo}"
-  gitops_workload_revision = var.gitops_workload_revision
+  gitops_workload_url             = "${var.gitops_workload_org}/${var.gitops_workload_repo}"
+  gitops_workload_revision        = var.gitops_workload_revision
   gitops_vendor_workload_basepath = var.gitops_vendor_workload_basepath
   gitops_vendor_workload_path     = var.gitops_vendor_workload_path
-  gitops_oss_workload_basepath = var.gitops_oss_workload_basepath
-  gitops_oss_workload_path     = var.gitops_oss_workload_path
+  gitops_oss_workload_basepath    = var.gitops_oss_workload_basepath
+  gitops_oss_workload_path        = var.gitops_oss_workload_path
 
 
   aws_addons = {
@@ -138,31 +138,31 @@ locals {
       eks_image_x86_64            = var.eks_image_x86_64
     },
     {
-      addons_repo_url      = local.gitops_addons_url
-      addons_repo_revision = local.gitops_addons_revision
+      addons_repo_url             = local.gitops_addons_url
+      addons_repo_revision        = local.gitops_addons_revision
       vendor_addons_repo_basepath = local.gitops_vendor_addons_basepath
       vendor_addons_repo_path     = local.gitops_vendor_addons_path
-      vendor_addon_config_path     = local.gitops_vendor_addon_config_path
-      oss_addons_repo_basepath = local.gitops_oss_addons_basepath
-      oss_addons_repo_path     = local.gitops_oss_addons_path
-      oss_addon_config_path     = local.gitops_oss_addon_config_path
+      vendor_addon_config_path    = local.gitops_vendor_addon_config_path
+      oss_addons_repo_basepath    = local.gitops_oss_addons_basepath
+      oss_addons_repo_path        = local.gitops_oss_addons_path
+      oss_addon_config_path       = local.gitops_oss_addon_config_path
     },
     {
-      workload_repo_url      = local.gitops_workload_url
-      workload_repo_revision = local.gitops_workload_revision
+      workload_repo_url             = local.gitops_workload_url
+      workload_repo_revision        = local.gitops_workload_revision
       vendor_workload_repo_basepath = local.gitops_vendor_workload_basepath
       vendor_workload_repo_path     = local.gitops_vendor_workload_path
-      oss_workload_repo_basepath = local.gitops_oss_workload_basepath
-      oss_workload_repo_path     = local.gitops_oss_workload_path
+      oss_workload_repo_basepath    = local.gitops_oss_workload_basepath
+      oss_workload_repo_path        = local.gitops_oss_workload_path
 
     }
   )
 
   argocd_apps = {
     vendor-addons    = file("${path.module}/argocd/vendor-addons.yaml")
-    oss-addons    = file("${path.module}/argocd/oss-addons.yaml")
+    oss-addons       = file("${path.module}/argocd/oss-addons.yaml")
     vendor-workloads = file("${path.module}/argocd/vendor-workloads.yaml")
-    oss-workloads = file("${path.module}/argocd/oss-workloads.yaml")
+    oss-workloads    = file("${path.module}/argocd/oss-workloads.yaml")
   }
 
   tags = {
