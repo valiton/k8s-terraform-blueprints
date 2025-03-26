@@ -60,8 +60,10 @@ locals {
   gitops_addons_revision = var.gitops_addons_revision
   gitops_vendor_addons_basepath = var.gitops_vendor_addons_basepath
   gitops_vendor_addons_path     = var.gitops_vendor_addons_path
+  gitops_vendor_addon_config_path     = var.gitops_vendor_addon_config_path
   gitops_oss_addons_basepath = var.gitops_oss_addons_basepath
   gitops_oss_addons_path     = var.gitops_oss_addons_path
+  gitops_oss_addon_config_path     = var.gitops_oss_addon_config_path
 
 
   gitops_workload_url      = "${var.gitops_workload_org}/${var.gitops_workload_repo}"
@@ -140,8 +142,10 @@ locals {
       addons_repo_revision = local.gitops_addons_revision
       vendor_addons_repo_basepath = local.gitops_vendor_addons_basepath
       vendor_addons_repo_path     = local.gitops_vendor_addons_path
+      vendor_addon_config_path     = local.gitops_vendor_addon_config_path
       oss_addons_repo_basepath = local.gitops_oss_addons_basepath
       oss_addons_repo_path     = local.gitops_oss_addons_path
+      oss_addon_config_path     = local.gitops_oss_addon_config_path
     },
     {
       workload_repo_url      = local.gitops_workload_url

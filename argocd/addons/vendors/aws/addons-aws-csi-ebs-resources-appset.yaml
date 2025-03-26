@@ -49,8 +49,8 @@ spec:
             releaseName: '{{values.addonChart}}'
             ignoreMissingValueFiles: true
             valueFiles:
-              - $values/{{metadata.annotations.addons_repo_basepath}}config/aws/{{values.addonChart}}/{{values.addonChart}}/values.yaml
-              - $values/{{metadata.annotations.addons_repo_basepath}}config/aws/{{values.addonChart}}/{{metadata.labels.environment}}.yaml
+              - $values/{{metadata.annotations.vendor_addon_config_path}}config/aws/{{values.addonChart}}/{{values.addonChart}}/values.yaml
+              - $values/{{metadata.annotations.vendor_addon_config_path}}config/aws/{{values.addonChart}}/{{metadata.labels.environment}}.yaml
       destination:
         name: '{{name}}'
       syncPolicy:

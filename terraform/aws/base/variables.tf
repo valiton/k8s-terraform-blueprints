@@ -121,6 +121,11 @@ variable "gitops_oss_addons_path" {
   type        = string
   default     = "oss"
 }
+variable "gitops_oss_addon_config_path" {
+  description = "Git repository path for oss specific addon configurations"
+  type        = string
+  default     = "argocd/addons/config/oss"
+}
 variable "gitops_vendor_addons_basepath" {
   description = "Git repository base path for vendor specific addons"
   type        = string
@@ -131,6 +136,12 @@ variable "gitops_vendor_addons_path" {
   type        = string
   default     = "aws"
 }
+variable "gitops_vendor_addon_config_path" {
+  description = "Git repository path for vendor specific addon configurations"
+  type        = string
+  default     = "argocd/addons/config/vendors/aws"
+}
+
 
 
 # Workloads Git
