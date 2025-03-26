@@ -55,7 +55,7 @@ spec:
             values: |
               provider: aws
               nodeSelector: 
-                {{ .metadata.annotations.base_nodepool_labels | indent 2 }}
+                {{ toJson .metadata.annotations.base_nodepool_labels | indent 2 }}
               serviceAccount:
                 name: {{.metadata.annotations.external_dns_service_account}}
                 annotations:
