@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: cluster-addons
+  name: cluster-vendor-addons
   namespace: argocd
 spec:
   syncPolicy:
@@ -10,12 +10,40 @@ spec:
     - clusters: {}
   template:
     metadata:
-      name: cluster-addons
+      name: cluster-vendor-addons
     spec:
       project: default
       source:
         repoURL: '{{metadata.annotations.addons_repo_url}}'
-        path: '{{metadata.annotations.addons_repo_basepath}}{{metadata.annotations.addons_repo_path}}'
+        path: '{{metadata.annotations.vendor_addons_repo_basepath}}{{metadata.annotations.vendor_addons_repo_path}}'
+        targetRevision: '{{metadata.annotations.addons_repo_revision}}'
+        directory:
+          recurse: true
+      destination:
+        namespace: argocd
+        name: '{{name}}'
+      syncPolicy:
+        automated: {}
+---
+
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-oss-addons
+  namespace: argocd
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+    - clusters: {}
+  template:
+    metadata:
+      name: cluster-oss-addons
+    spec:
+      project: default
+      source:
+        repoURL: '{{metadata.annotations.addons_repo_url}}'
+        path: '{{metadata.annotations.oss_addons_repo_basepath}}{{metadata.annotations.oss_addons_repo_path}}'
         targetRevision: '{{metadata.annotations.addons_repo_revision}}'
         directory:
           recurse: true

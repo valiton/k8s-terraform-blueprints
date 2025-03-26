@@ -66,7 +66,6 @@ variable "base_node_group_labels" {
   type = any
   default = {
     base_nodepool = "base"
-    foo           = "bar"
   }
   description = "Labels of the base node group"
 }
@@ -112,16 +111,27 @@ variable "gitops_addons_revision" {
   type        = string
   default     = "main"
 }
-variable "gitops_addons_basepath" {
-  description = "Git repository base path for addons"
+variable "gitops_oss_addons_basepath" {
+  description = "Git repository base path for oss specific addons"
   type        = string
-  default     = "argocd/cluster-addons/"
+  default     = "argocd/addons/"
 }
-variable "gitops_addons_path" {
-  description = "Git repository path for addons"
+variable "gitops_oss_addons_path" {
+  description = "Git repository path for oss specific addons"
   type        = string
-  default     = "addons"
+  default     = "oss"
 }
+variable "gitops_vendor_addons_basepath" {
+  description = "Git repository base path for vendor specific addons"
+  type        = string
+  default     = "argocd/addons/vendors/"
+}
+variable "gitops_vendor_addons_path" {
+  description = "Git repository path for vendor specific addons"
+  type        = string
+  default     = "aws"
+}
+
 
 # Workloads Git
 variable "gitops_workload_org" {
@@ -139,13 +149,23 @@ variable "gitops_workload_revision" {
   type        = string
   default     = "main"
 }
-variable "gitops_workload_basepath" {
-  description = "Git repository base path for workload"
+variable "gitops_oss_workload_basepath" {
+  description = "Git repository base path for oss specific addon resources"
+  type        = string
+  default     = "addon-dependent-resources"
+}
+variable "gitops_oss_workload_path" {
+  description = "Git repository path for oss specific addon resources"
+  type        = string
+  default     = "oss"
+}
+variable "gitops_vendor_workload_basepath" {
+  description = "Git repository base path for vendor specific addon resources"
   type        = string
   default     = "addon-dependent-resources/vendors/"
 }
-variable "gitops_workload_path" {
-  description = "Git repository path for workload"
+variable "gitops_vendor_workload_path" {
+  description = "Git repository path for vendor specific addon resources"
   type        = string
   default     = "aws"
 }
