@@ -145,9 +145,12 @@ locals {
     },
     {
       workload_repo_url      = local.gitops_workload_url
-      workload_repo_basepath = local.gitops_workload_basepath
-      workload_repo_path     = local.gitops_workload_path
       workload_repo_revision = local.gitops_workload_revision
+      vendor_workload_repo_basepath = local.gitops_vendor_workload_basepath
+      vendor_workload_repo_path     = local.gitops_vendor_workload_path
+      oss_workload_repo_basepath = local.gitops_oss_workload_basepath
+      oss_workload_repo_path     = local.gitops_oss_workload_path
+
     }
   )
 
