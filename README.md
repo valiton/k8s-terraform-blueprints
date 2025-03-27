@@ -60,9 +60,9 @@ The repository is structured to help you easily locate the cloud-specific Terraf
 
 ```
 k8s-terraform-blueprints/
-├── addon-dependent-workload/
-├── addons/
-├── cluster-addons/
+├── addon-dependent-resources/
+├── argocd/
+│   └── addons/
 ├── terraform/
 │   └── aws/
 │       ├── base/
@@ -81,7 +81,7 @@ module "base" {
 }
 ```
 
-For more details, check out the general [AWS base module documentation](./terraform/aws/base/) and the [eks-prod-minimal folder](./terraform/aws/examples/eks-prod-minimal/).
+For more details, check out the general [AWS base module documentation](./terraform/aws/base/) and the [eks-prod-minimal folder](./terraform/aws/examples/aws-production/).
 
 ## Contributing
 
@@ -89,7 +89,7 @@ We welcome contributions! Feel free to open issues and pull requests to improve 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [License](License) file for details.
 
 ## Contact
 
