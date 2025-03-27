@@ -60,9 +60,9 @@ The repository is structured to help you easily locate the cloud-specific Terraf
 
 ```
 k8s-terraform-blueprints/
-├── addon-dependent-workload/
-├── addons/
-├── cluster-addons/
+├── addon-dependent-resources/
+├── argocd/
+│   └── addons/
 ├── terraform/
 │   └── aws/
 │       ├── base/
