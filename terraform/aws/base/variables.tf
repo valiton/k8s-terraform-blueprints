@@ -1,6 +1,7 @@
 variable "environment" {
   default = "development"
   type    = string
+  description = "Infrastructure environment name (e.g. development, staging, production)."
 }
 variable "base_name" {
   description = "Name of your base infrastructure"
@@ -8,15 +9,17 @@ variable "base_name" {
   default     = "my-project"
 }
 variable "vpc_cidr" {
-  description = "VPC CIDR"
+  description = "VPC CIDR, if empty a random CIDR will be chosen"
   type        = string
   default     = ""
 }
 variable "azs_count" {
+  description = "Number of availability zones"
   type    = number
   default = 2
 }
 variable "single_nat_gateway" {
+  description = "True if only a single NAT gateway should be deployed instead of one per AZ"
   type    = bool
   default = false
 }
