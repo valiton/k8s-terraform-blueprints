@@ -81,7 +81,7 @@ module "base" {
 }
 ```
 
-For more details, check out the general [AWS base module documentation](./terraform/aws/base/) and the [eks-prod-minimal folder](./terraform/aws/examples/eks-prod-minimal/).
+For more details, check out the general [AWS base module documentation](./terraform/aws/base/) and the [eks-prod-minimal folder](./terraform/aws/examples/aws-production/).
 
 ## Contributing
 
