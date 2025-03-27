@@ -115,4 +115,4 @@ module "base" {
 Feel free to submit **issues and pull requests** to improve this module.
 
 ## License
-This module is licensed under the **MIT License**. See the [LICENSE](../../../LICENSE) file for details.
+This module is licensed under the **MIT License**. See the [License](../../../License) file for details.
