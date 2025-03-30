@@ -1,12 +1,17 @@
 variable "environment" {
-  default = "development"
-  type    = string
+  default     = "development"
+  type        = string
   description = "Infrastructure environment name (e.g. development, staging, production)."
 }
 variable "base_name" {
-  description = "Name of your base infrastructure"
+  description = "Name of your base infrastructure."
   type        = string
   default     = "my-project"
+
+  validation {
+    condition     = can(regex("^[a-z0-9-]+$", var.base_name))
+    error_message = "The base_name must only contain lowercase letters, numbers, and dashes."
+  }
 }
 variable "vpc_cidr" {
   description = "VPC CIDR, if empty a random CIDR will be chosen"
@@ -15,13 +20,13 @@ variable "vpc_cidr" {
 }
 variable "azs_count" {
   description = "Number of availability zones"
-  type    = number
-  default = 2
+  type        = number
+  default     = 2
 }
 variable "single_nat_gateway" {
   description = "True if only a single NAT gateway should be deployed instead of one per AZ"
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
 }
 variable "region" {
   description = "AWS region"
@@ -74,7 +79,7 @@ variable "base_node_group_labels" {
 }
 
 variable "eks_managed_node_groups" {
-  description = "EKS manages nodegroups"
+  description = "EKS managed nodegroups in addition to the base nodegroup"
   type        = any
   default     = {}
 }
@@ -115,17 +120,17 @@ variable "gitops_addons_revision" {
   default     = "main"
 }
 variable "gitops_oss_addons_basepath" {
-  description = "Git repository base path for oss specific addons"
+  description = "Git repository base path for oss addons"
   type        = string
   default     = "argocd/addons/"
 }
 variable "gitops_oss_addons_path" {
-  description = "Git repository path for oss specific addons"
+  description = "Git repository path for oss addons"
   type        = string
   default     = "oss"
 }
 variable "gitops_oss_addon_config_path" {
-  description = "Git repository path for oss specific addon configurations"
+  description = "Git repository path for oss addon configurations"
   type        = string
   default     = "argocd/addons/config/oss"
 }
@@ -164,12 +169,12 @@ variable "gitops_workload_revision" {
   default     = "main"
 }
 variable "gitops_oss_workload_basepath" {
-  description = "Git repository base path for oss specific addon resources"
+  description = "Git repository base path for oss addon resources"
   type        = string
   default     = "addon-dependent-resources/"
 }
 variable "gitops_oss_workload_path" {
-  description = "Git repository path for oss specific addon resources"
+  description = "Git repository path for oss addon resources"
   type        = string
   default     = "oss"
 }

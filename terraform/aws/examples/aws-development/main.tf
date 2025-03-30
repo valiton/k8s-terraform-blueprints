@@ -1,6 +1,6 @@
 module "base" {
   source = "git::git@github.com:valiton/k8s-terraform-blueprints.git//terraform/aws/base?ref=main"
- 
+
   # Identifier for EKS cluster and other resources
   base_name = "eks-development-example"
 
@@ -9,4 +9,8 @@ module "base" {
 
   # use only single NAT gateway for cost savings for all AZs
   single_nat_gateway = 1
+}
+
+output "base" {
+  value = module.base
 }
