@@ -1,6 +1,6 @@
 variable "environment" {
-  default = "development"
-  type    = string
+  default     = "development"
+  type        = string
   description = "Infrastructure environment name (e.g. development, staging, production)."
 }
 variable "base_name" {
@@ -15,13 +15,13 @@ variable "vpc_cidr" {
 }
 variable "azs_count" {
   description = "Number of availability zones"
-  type    = number
-  default = 2
+  type        = number
+  default     = 2
 }
 variable "single_nat_gateway" {
   description = "True if only a single NAT gateway should be deployed instead of one per AZ"
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
 }
 variable "region" {
   description = "AWS region"
