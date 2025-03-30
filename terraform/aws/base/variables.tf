@@ -4,9 +4,14 @@ variable "environment" {
   description = "Infrastructure environment name (e.g. development, staging, production)."
 }
 variable "base_name" {
-  description = "Name of your base infrastructure"
+  description = "Name of your base infrastructure."
   type        = string
   default     = "my-project"
+
+  validation {
+    condition     = can(regex("^[a-z0-9-]+$", var.base_name))
+    error_message = "The base_name must only contain lowercase letters, numbers, and dashes."
+  }
 }
 variable "vpc_cidr" {
   description = "VPC CIDR, if empty a random CIDR will be chosen"
