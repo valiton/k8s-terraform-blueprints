@@ -74,7 +74,7 @@ variable "base_node_group_labels" {
 }
 
 variable "eks_managed_node_groups" {
-  description = "EKS manages nodegroups"
+  description = "EKS managed nodegroups in addition to the base nodegroup"
   type        = any
   default     = {}
 }
