@@ -79,11 +79,11 @@ module "base" {
 | <a name="input_gitops_addons_org"></a> [gitops\_addons\_org](#input\_gitops\_addons\_org) | Git repository org/user contains for addons | `string` | `"https://github.com/valiton"` | no |
 | <a name="input_gitops_addons_repo"></a> [gitops\_addons\_repo](#input\_gitops\_addons\_repo) | Git repository contains for addons | `string` | `"k8s-terraform-blueprints"` | no |
 | <a name="input_gitops_addons_revision"></a> [gitops\_addons\_revision](#input\_gitops\_addons\_revision) | Git repository revision/branch/ref for addons | `string` | `"main"` | no |
-| <a name="input_gitops_oss_addon_config_path"></a> [gitops\_oss\_addon\_config\_path](#input\_gitops\_oss\_addon\_config\_path) | Git repository path for oss specific addon configurations | `string` | `"argocd/addons/config/oss"` | no |
-| <a name="input_gitops_oss_addons_basepath"></a> [gitops\_oss\_addons\_basepath](#input\_gitops\_oss\_addons\_basepath) | Git repository base path for oss specific addons | `string` | `"argocd/addons/"` | no |
-| <a name="input_gitops_oss_addons_path"></a> [gitops\_oss\_addons\_path](#input\_gitops\_oss\_addons\_path) | Git repository path for oss specific addons | `string` | `"oss"` | no |
-| <a name="input_gitops_oss_workload_basepath"></a> [gitops\_oss\_workload\_basepath](#input\_gitops\_oss\_workload\_basepath) | Git repository base path for oss specific addon resources | `string` | `"addon-dependent-resources/"` | no |
-| <a name="input_gitops_oss_workload_path"></a> [gitops\_oss\_workload\_path](#input\_gitops\_oss\_workload\_path) | Git repository path for oss specific addon resources | `string` | `"oss"` | no |
+| <a name="input_gitops_oss_addon_config_path"></a> [gitops\_oss\_addon\_config\_path](#input\_gitops\_oss\_addon\_config\_path) | Git repository path for oss addon configurations | `string` | `"argocd/addons/config/oss"` | no |
+| <a name="input_gitops_oss_addons_basepath"></a> [gitops\_oss\_addons\_basepath](#input\_gitops\_oss\_addons\_basepath) | Git repository base path for oss addons | `string` | `"argocd/addons/"` | no |
+| <a name="input_gitops_oss_addons_path"></a> [gitops\_oss\_addons\_path](#input\_gitops\_oss\_addons\_path) | Git repository path for oss addons | `string` | `"oss"` | no |
+| <a name="input_gitops_oss_workload_basepath"></a> [gitops\_oss\_workload\_basepath](#input\_gitops\_oss\_workload\_basepath) | Git repository base path for oss addon resources | `string` | `"addon-dependent-resources/"` | no |
+| <a name="input_gitops_oss_workload_path"></a> [gitops\_oss\_workload\_path](#input\_gitops\_oss\_workload\_path) | Git repository path for oss addon resources | `string` | `"oss"` | no |
 | <a name="input_gitops_vendor_addon_config_path"></a> [gitops\_vendor\_addon\_config\_path](#input\_gitops\_vendor\_addon\_config\_path) | Git repository path for vendor specific addon configurations | `string` | `"argocd/addons/config/vendors/aws"` | no |
 | <a name="input_gitops_vendor_addons_basepath"></a> [gitops\_vendor\_addons\_basepath](#input\_gitops\_vendor\_addons\_basepath) | Git repository base path for vendor specific addons | `string` | `"argocd/addons/vendors/"` | no |
 | <a name="input_gitops_vendor_addons_path"></a> [gitops\_vendor\_addons\_path](#input\_gitops\_vendor\_addons\_path) | Git repository path for vendor specific addons | `string` | `"aws"` | no |

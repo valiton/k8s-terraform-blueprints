@@ -115,17 +115,17 @@ variable "gitops_addons_revision" {
   default     = "main"
 }
 variable "gitops_oss_addons_basepath" {
-  description = "Git repository base path for oss specific addons"
+  description = "Git repository base path for oss addons"
   type        = string
   default     = "argocd/addons/"
 }
 variable "gitops_oss_addons_path" {
-  description = "Git repository path for oss specific addons"
+  description = "Git repository path for oss addons"
   type        = string
   default     = "oss"
 }
 variable "gitops_oss_addon_config_path" {
-  description = "Git repository path for oss specific addon configurations"
+  description = "Git repository path for oss addon configurations"
   type        = string
   default     = "argocd/addons/config/oss"
 }
@@ -164,12 +164,12 @@ variable "gitops_workload_revision" {
   default     = "main"
 }
 variable "gitops_oss_workload_basepath" {
-  description = "Git repository base path for oss specific addon resources"
+  description = "Git repository base path for oss addon resources"
   type        = string
   default     = "addon-dependent-resources/"
 }
 variable "gitops_oss_workload_path" {
-  description = "Git repository path for oss specific addon resources"
+  description = "Git repository path for oss addon resources"
   type        = string
   default     = "oss"
 }
