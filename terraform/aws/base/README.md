@@ -63,7 +63,7 @@ module "base" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_addons"></a> [addons](#input\_addons) | Kubernetes addons | `any` | <pre>{<br/>  "enable_aws_ebs_csi_resources": true,<br/>  "enable_aws_efs_csi_driver": true,<br/>  "enable_aws_load_balancer_controller": true,<br/>  "enable_external_dns": true,<br/>  "enable_external_secrets": true,<br/>  "enable_karpenter": true,<br/>  "enable_kube_prometheus_stack": true,<br/>  "enable_metrics_server": true<br/>}</pre> | no |
 | <a name="input_azs_count"></a> [azs\_count](#input\_azs\_count) | Number of availability zones | `number` | `2` | no |
-| <a name="input_base_name"></a> [base\_name](#input\_base\_name) | Name of your base infrastructure | `string` | `"my-project"` | no |
+| <a name="input_base_name"></a> [base\_name](#input\_base\_name) | Name of your base infrastructure. | `string` | `"my-project"` | no |
 | <a name="input_base_node_group_ami_type"></a> [base\_node\_group\_ami\_type](#input\_base\_node\_group\_ami\_type) | AMI type used by the base node group | `string` | `"AL2023_ARM_64_STANDARD"` | no |
 | <a name="input_base_node_group_capacity_type"></a> [base\_node\_group\_capacity\_type](#input\_base\_node\_group\_capacity\_type) | Capacity types used by the base node group | `string` | `"ON_DEMAND"` | no |
 | <a name="input_base_node_group_desired_size"></a> [base\_node\_group\_desired\_size](#input\_base\_node\_group\_desired\_size) | Initial desired instance count of the base node group | `number` | `2` | no |
