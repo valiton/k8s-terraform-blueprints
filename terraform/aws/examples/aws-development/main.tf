@@ -8,7 +8,7 @@ module "base" {
   environment = "development"
 
   # use only single NAT gateway for cost savings for all AZs
-  single_nat_gateway = 1
+  single_nat_gateway = true
 }
 
 output "base" {
