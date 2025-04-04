@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: openstack-cloud-controller-manager
+  namespace: argocd
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+    - clusters: {}
+  template:
+    metadata:
+      name: openstack-cloud-controller-manager
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/kubernetes/cloud-provider-openstack.git'
+        path: 'manifests/controller-manager'
+        targetRevision: 'v1.32.0'
+        directory:
+          include: "{cloud-controller-manager-roles.yaml,cloud-controller-manager-role-bindings.yaml,openstack-cloud-controller-manager-ds.yaml}"
+      destination:
+        namespace: kube-system
+        name: '{{name}}'
+      syncPolicy:
+        automated: {}
+

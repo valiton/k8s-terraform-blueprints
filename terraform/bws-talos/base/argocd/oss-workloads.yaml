@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: oss-addon-dependent-resources
+  namespace: argocd
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: false
+  generators:
+    - clusters: {}
+  template:
+    metadata:
+      name: oss-addon-dependent-resources
+    spec:
+      project: default
+      source:
+        repoURL: '{{metadata.annotations.workload_repo_url}}'
+        path: '{{metadata.annotations.oss_workload_repo_basepath}}{{metadata.annotations.oss_workload_repo_path}}'
+        targetRevision: '{{metadata.annotations.workload_repo_revision}}'
+        helm:
+          values: ~
+      destination:
+        name: '{{name}}'
+      syncPolicy:
+        automated:
+          allowEmpty: true
+        syncOptions:
+        - CreateNamespace=true
+        retry:
+          backoff:
+            duration: 1m
+          limit: 60
+

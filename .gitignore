@@ -4,3 +4,4 @@ Chart.lock
 .DS_Store
 terragrunt*
 example-workload
+terraform.tfvars

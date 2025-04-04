@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: k8s-keystone
+  namespace: kube-system
+  labels:
+    app: k8s-keystone
+spec:
+  selector:
+    matchLabels:
+      app: k8s-keystone
+  template:
+    metadata:
+      labels:
+        app: k8s-keystone
+    spec:
+      containers:
+        - name: k8s-keystone
+          image: "registry.k8s.io/provider-os/k8s-keystone-auth:{{.Values.imageTag}}"
+          args:
+            - ./bin/k8s-keystone-auth
+            - --tls-cert-file
+            - /etc/pki/tls.crt
+            - --tls-private-key-file
+            - /etc/pki/tls.key
+            - --keystone-url
+            - {{.Values.authUrl}}/v3
+          volumeMounts:
+            - mountPath: /etc/pki
+              name: tls-secret
+              readOnly: true
+          ports:
+            - containerPort: 8443
+      hostNetwork: true
+      volumes:
+        - name: tls-secret
+          secret:
+            secretName: k8s-keystone-tls-secret
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
+        - key: CriticalAddonsOnly
+          operator: Exists
+        - effect: NoExecute
+          operator: Exists

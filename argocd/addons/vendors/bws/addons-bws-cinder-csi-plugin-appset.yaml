@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-metrics-server
+  name: addons-bws-cinder-csi-plugin
 spec:
   syncPolicy:
     preserveResourcesOnDeletion: false
@@ -13,60 +13,61 @@ spec:
         generators:
           - clusters:
               values:
-                addonChart: metrics-server
-                addonChartNamespace: kube-system
-                # anything not staging or prod use this version
-                addonChartVersion: 3.12.0
-                addonChartRepository: https://kubernetes-sigs.github.io/metrics-server
+                addonChart: cinder-csi-plugin
+                addonChartRepository: https://github.com/kubernetes/cloud-provider-openstack
               selector:
                 matchExpressions:
-                  - key: enable_metrics_server
+                  - key: enable_cinder_csi_plugin
                     operator: In
                     values: ['true']
           - clusters:
               selector:
                 matchLabels:
                   environment: staging
-              values:
-                addonChartVersion: 3.12.0
           - clusters:
               selector:
                 matchLabels:
                   environment: production
-              values:
-                addonChartVersion: 3.12.0
   template:
     metadata:
-      name: addon-{{.name}}-{{.values.addonChart}}
+      name: 'addon-{{.name}}-{{.values.addonChart}}'
       finalizers:
         - resources-finalizer.argocd.argoproj.io/background
       annotations:
-        argocd.argoproj.io/sync-wave: "10"
+        argocd.argoproj.io/sync-wave: "30"
     spec:
       project: default
       sources:
         - repoURL: '{{.metadata.annotations.addons_repo_url}}'
           targetRevision: '{{.metadata.annotations.addons_repo_revision}}'
           ref: values
-        - chart: '{{.values.addonChart}}'
+        - path: charts/cinder-csi-plugin
           repoURL: '{{.values.addonChartRepository}}'
-          targetRevision: '{{.values.addonChartVersion}}'
+          targetRevision: 'v1.32.0'
           helm:
             releaseName: '{{.values.addonChart}}'
             ignoreMissingValueFiles: true
             valueFiles:
-              - $values/{{.metadata.annotations.oss_addon_config_path}}/{{.values.addonChart}}/values.yaml
-              - $values/{{.metadata.annotations.oss_addon_config_path}}/{{.values.addonChart}}/{{.metadata.labels.environment}}.yaml
+              - $values/{{.metadata.annotations.vendor_addon_config_path}}/{{.values.addonChart}}/values.yaml
+              - $values/{{.metadata.annotations.vendor_addon_config_path}}/{{.values.addonChart}}/{{.metadata.labels.environment}}.yaml
             values: |
-              {{- if .metadata.annotations.base_nodepool_labels}}
-              nodeSelector:
-                {{.metadata.annotations.base_nodepool_labels}}
-              {{- end }}
+              storageClass:
+                delete:
+                  isDefault: true
+              clusterID: '{{.metadata.annotations.cluster_name}}'
+              secret:
+                enabled: true
+                name: '{{.metadata.annotations.cinder_csi_plugin_secret_name}}'
+              csi:
+                plugin:
+                  volumes:
+                    - name: cacert
+                      hostPath:
+                        path: /etc/ssl/certs/ca-certificates
       destination:
-        namespace: '{{.values.addonChartNamespace}}'
+        namespace: '{{.metadata.annotations.cinder_csi_plugin_namespace}}'
         name: '{{.name}}'
       syncPolicy:
         automated: {}
         syncOptions:
           - CreateNamespace=true
-          - ServerSideApply=true  # Big CRDs.
