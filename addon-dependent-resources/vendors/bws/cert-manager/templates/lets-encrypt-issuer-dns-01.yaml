@@ -1,0 +1,17 @@
+{{- if .Values.acme.dns01.enabled }}
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-dns01-{{.Values.acme.name}}
+spec:
+  acme:
+    email: {{.Values.acme.registrationEmail}}
+    server: {{.Values.acme.url}}
+    privateKeySecretRef:
+      name: letsencrypt-dns01-{{.Values.acme.name}}
+    solvers:
+      - dns01:
+          webhook:
+            groupName: acme.syseleven.de
+            solverName: designatedns
+{{- end }}

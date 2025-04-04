@@ -1,0 +1,9 @@
+acme:
+  name: staging
+  url: https://acme-staging-v02.api.letsencrypt.org/directory
+  registrationEmail: test@example.com
+  http01:
+    enabled: true
+    ingressClassName: nginx
+  dns01:
+    enabled: true
