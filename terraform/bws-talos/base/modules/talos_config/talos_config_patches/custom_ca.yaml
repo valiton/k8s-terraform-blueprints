@@ -1,0 +1,3 @@
+cluster:
+  acceptedCAs:
+    - crt: ${base64encode("${ca_cert}\n")}
