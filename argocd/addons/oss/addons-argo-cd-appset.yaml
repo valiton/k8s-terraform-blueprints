@@ -4,8 +4,8 @@ kind: ApplicationSet
 metadata:
   name: addons-argocd
 spec:
+  goTemplate: true
   syncPolicy:
-    goTemplate: true
     preserveResourcesOnDeletion: true
   generators:
     - merge:
