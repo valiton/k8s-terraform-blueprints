@@ -36,32 +36,34 @@ spec:
                 addonChartVersion: 7.8.13
   template:
     metadata:
-      name: addon-{{name}}-{{values.addonChart}}
+      name: addon-{{.name}}-{{.values.addonChart}}
     spec:
       project: default
       sources:
-        - repoURL: '{{metadata.annotations.addons_repo_url}}'
-          targetRevision: '{{metadata.annotations.addons_repo_revision}}'
+        - repoURL: '{{.metadata.annotations.addons_repo_url}}'
+          targetRevision: '{{.metadata.annotations.addons_repo_revision}}'
           ref: values
-        - chart: '{{values.addonChart}}'
-          repoURL: '{{values.addonChartRepository}}'
-          targetRevision: '{{values.addonChartVersion}}'
+        - chart: '{{.values.addonChart}}'
+          repoURL: '{{.values.addonChartRepository}}'
+          targetRevision: '{{.values.addonChartVersion}}'
           helm:
-            releaseName: '{{values.addonChart}}'
+            releaseName: '{{.values.addonChart}}'
             ignoreMissingValueFiles: true
             valueFiles:
-              - $values/{{metadata.annotations.oss_addon_config_path}}/{{values.addonChart}}/{{values.addonChart}}/values.yaml
-              - $values/{{metadata.annotations.oss_addon_config_path}}/{{values.addonChart}}/{{metadata.labels.environment}}.yaml
+              - $values/{{.metadata.annotations.oss_addon_config_path}}/{{.values.addonChart}}/values.yaml
+              - $values/{{.metadata.annotations.oss_addon_config_path}}/{{.values.addonChart}}/{{.metadata.labels.environment}}.yaml
             values: |
+              {{- if eq .metadata.annotations.vendor "aws" }}
               global:
                 nodeSelector:
-                  {{metadata.annotations.base_nodepool_labels}}
+                  {{.metadata.annotations.base_nodepool_labels}}
+              {{- end }}
               configs:
                 cm:
                   timeout.reconciliation: 20s
       destination:
-        namespace: '{{values.addonChartRepositoryNamespace}}'
-        name: '{{name}}'
+        namespace: '{{.values.addonChartRepositoryNamespace}}'
+        name: '{{.name}}'
       syncPolicy:
         automated:
           prune: false

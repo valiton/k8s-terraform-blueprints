@@ -128,6 +128,7 @@ locals {
   addons_metadata = merge(
     module.eks_blueprints_addons.gitops_metadata,
     {
+      vendor                      = "aws"
       external_dns_domain_filters = var.external_dns_domain_filters
       aws_cluster_name            = module.eks.cluster_name
       aws_region                  = local.region
