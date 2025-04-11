@@ -54,14 +54,11 @@ spec:
               - $values/{{.metadata.annotations.oss_addon_config_path}}/{{.values.addonChart}}/values.yaml
               - $values/{{.metadata.annotations.oss_addon_config_path}}/{{.values.addonChart}}/{{.metadata.labels.environment}}.yaml
             values: |
-              {{- if eq .metadata.annotations.vendor "aws" }}
+              {{- if .metadata.annotations.base_nodepool_labels}}
               global:
                 nodeSelector:
                   {{.metadata.annotations.base_nodepool_labels}}
               {{- end }}
-              configs:
-                cm:
-                  timeout.reconciliation: 20s
       destination:
         namespace: '{{.values.addonChartRepositoryNamespace}}'
         name: '{{.name}}'
