@@ -54,8 +54,9 @@ spec:
               - $values/{{.metadata.annotations.vendor_addon_config_path}}/{{.values.addonChart}}/{{.metadata.labels.environment}}.yaml
             values: |
               {{- if .metadata.annotations.base_nodepool_labels}}
-              nodeSelector:
-                {{.metadata.annotations.base_nodepool_labels}}
+              controller:
+                nodeSelector:
+                  {{.metadata.annotations.base_nodepool_labels}}
               {{- end }}
               serviceAccount:
                 name: {{.metadata.annotations.aws_efs_csi_driver_controller_service_account}}
