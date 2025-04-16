@@ -65,19 +65,22 @@ resource "restapi_object" "machine_deployment" {
   path = "/api/v2/projects/${var.project_id}/clusters/${restapi_object.openstack_cluster.id}/machinedeployments"
   data = jsonencode({
     name       = "openstack-md"
-    replicas   = 2
-    cloud      = {
-      openstack = {
-        flavor    = var.os_instance_flavor
-        image     = var.os_image_name
-        diskSize  = 40
-        tags      = ["provider=terraform"]
+    spec = {
+      replicas   = 2
+        template = {
+          cloud      = {
+            openstack = {
+              flavor    = var.os_instance_flavor
+              image     = var.os_image_name
+              diskSize  = 40
+            }
+          }
+          operatingSystem        = {
+            ubuntu = {}
+          }
+          operatingSystemProfile = "osp-ubuntu"
       }
     }
-    operatingSystem        = {
-      ubuntu = {}
-    }
-    operatingSystemProfile = "osp-ubuntu"
   })
 
   depends_on = [null_resource.wait_for_cluster_ready]
