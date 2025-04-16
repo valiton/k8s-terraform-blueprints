@@ -6,3 +6,5 @@ terragrunt*
 example-workload
 *.tfvars
 .cluster_id
+terraform.tfstate.backup
+terraform.tfstate
