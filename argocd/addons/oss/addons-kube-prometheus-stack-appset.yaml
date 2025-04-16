@@ -4,8 +4,6 @@ kind: ApplicationSet
 metadata:
   name: addons-kube-prometheus-stack
 spec:
-  syncPolicy:
-    preserveResourcesOnDeletion: true
   generators:
     - merge:
         mergeKeys: [server]
@@ -30,12 +28,14 @@ spec:
           - clusters:
               selector:
                 matchLabels:
-                  environment: prod
+                  environment: production
               values:
                 addonChartVersion: 70.0.3
   template:
     metadata:
       name: addon-{{name}}-{{values.addonChart}}
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io/background
     spec:
       project: default
       sources:
@@ -52,7 +52,7 @@ spec:
               - $values/{{metadata.annotations.oss_addon_config_path}}/{{values.addonChart}}/values.yaml
               - $values/{{metadata.annotations.oss_addon_config_path}}/{{values.addonChart}}/{{metadata.labels.environment}}.yaml
       destination:
-        namespace: '{{values.addonChart}}'
+        namespace: '{{metadata.annotations.kube_prometheus_stack_namespace}}'
         name: '{{name}}'
       syncPolicy:
         automated: {}
