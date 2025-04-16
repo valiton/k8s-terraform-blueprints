@@ -4,3 +4,5 @@ Chart.lock
 .DS_Store
 terragrunt*
 example-workload
+*.tfvars
+.cluster_id
