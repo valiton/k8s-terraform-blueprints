@@ -7,3 +7,4 @@ example-workload
 *.tfvars
 .cluster_id
 terraform.tfstate*
+.terraform
