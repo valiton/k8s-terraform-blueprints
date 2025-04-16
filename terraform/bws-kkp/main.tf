@@ -73,17 +73,31 @@ resource "restapi_object" "machine_deployment" {
               flavor    = var.os_instance_flavor
               image     = var.os_image_name
               diskSize  = 40
+              availabilityZone = "az1"
             }
           }
           operatingSystem        = {
-            ubuntu = {}
+            ubuntu = {
+              distUpgradeOnBoot = false 
+            }
           }
-          operatingSystemProfile = "osp-ubuntu"
+          versions = {
+            kubelet = var.kubernetes_version
+        }
       }
     }
   })
 
   depends_on = [null_resource.wait_for_cluster_ready]
+
+}
+
+resource "null_resource" "wait_for_machines_ready" {
+  depends_on = [restapi_object.machine_deployment]
+
+  provisioner "local-exec" {
+    command = "sleep 60"
+  }
 }
 
 resource "null_resource" "save_cluster_id" {
