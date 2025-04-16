@@ -8,3 +8,4 @@ example-workload
 .cluster_id
 terraform.tfstate.backup
 terraform.tfstate
+.terraform
