@@ -1,0 +1,15 @@
+kkp_api_url        = "https://kkp-dev.bws.burda.com"
+kkp_token          = ""
+project_id         = "99pqlbnx6m"
+cluster_name       = "<yourClusterName>"
+datacenter         = "deofg-az1"
+kubernetes_version = "1.31.1"
+
+os_app_cred_id     = ""
+os_app_cred_secret = ""
+os_project         = "VALITON-SOL-K8S-UNIFIKATION"
+os_domain          = "Default"
+
+os_image_name       = "Ubuntu 24.04"
+os_instance_flavor  = "BWS-C1-2-4"
+
