@@ -2,10 +2,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons-metrics-server
+  name: addons-bws-cert-manager
 spec:
   syncPolicy:
-    preserveResourcesOnDeletion: false
+    preserveResourcesOnDeletion: true
   goTemplate: true
   generators:
     - merge:
@@ -13,14 +13,12 @@ spec:
         generators:
           - clusters:
               values:
-                addonChart: metrics-server
-                addonChartNamespace: kube-system
-                # anything not staging or prod use this version
-                addonChartVersion: 3.12.0
-                addonChartRepository: https://kubernetes-sigs.github.io/metrics-server
+                addonChart: cert-manager
+                addonChartVersion: 1.17.1
+                addonChartRepository: https://charts.jetstack.io
               selector:
                 matchExpressions:
-                  - key: enable_metrics_server
+                  - key: enable_cert_manager
                     operator: In
                     values: ['true']
           - clusters:
@@ -28,18 +26,16 @@ spec:
                 matchLabels:
                   environment: staging
               values:
-                addonChartVersion: 3.12.0
+                addonChartVersion: 1.17.1
           - clusters:
               selector:
                 matchLabels:
                   environment: production
               values:
-                addonChartVersion: 3.12.0
+                addonChartVersion: 1.17.1
   template:
     metadata:
-      name: addon-{{.name}}-{{.values.addonChart}}
-      finalizers:
-        - resources-finalizer.argocd.argoproj.io/background
+      name: 'addon-{{.name}}-{{.values.addonChart}}'
       annotations:
         argocd.argoproj.io/sync-wave: "10"
     spec:
@@ -55,18 +51,18 @@ spec:
             releaseName: '{{.values.addonChart}}'
             ignoreMissingValueFiles: true
             valueFiles:
-              - $values/{{.metadata.annotations.oss_addon_config_path}}/{{.values.addonChart}}/values.yaml
-              - $values/{{.metadata.annotations.oss_addon_config_path}}/{{.values.addonChart}}/{{.metadata.labels.environment}}.yaml
+              - $values/{{.metadata.annotations.vendor_addon_config_path}}/{{.values.addonChart}}/values.yaml
+              - $values/{{.metadata.annotations.vendor_addon_config_path}}/{{.values.addonChart}}/{{.metadata.labels.environment}}.yaml
             values: |
-              {{- if .metadata.annotations.base_nodepool_labels}}
-              nodeSelector:
-                {{.metadata.annotations.base_nodepool_labels}}
-              {{- end }}
+              crds:
+                enabled: true
+              serviceAccount:
+                name: {{.metadata.annotations.cert_manager_service_account_name}}
       destination:
-        namespace: '{{.values.addonChartNamespace}}'
+        namespace: '{{.metadata.annotations.cert_manager_namespace}}'
         name: '{{.name}}'
       syncPolicy:
         automated: {}
         syncOptions:
           - CreateNamespace=true
-          - ServerSideApply=true  # Big CRDs.
+          - ServerSideApply=true

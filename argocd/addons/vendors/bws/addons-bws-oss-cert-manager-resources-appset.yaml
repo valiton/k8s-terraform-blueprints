@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: vendor-cert-manager-addon-dependent-resources
+  namespace: argocd
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: false
+  goTemplate: true
+  generators:
+    - clusters:
+        selector:
+          matchExpressions:
+            - key: enable_cert_manager
+              operator: In
+              values: ['true']
+  template:
+    metadata:
+      name: vendor-cert-manager-addon-dependent-resources
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io/background
+      annotations:
+        argocd.argoproj.io/sync-wave: "40"
+    spec:
+      project: default
+      sources:
+        - repoURL: '{{.metadata.annotations.addons_repo_url}}'
+          targetRevision: '{{.metadata.annotations.addons_repo_revision}}'
+          ref: values
+        - path: '{{.metadata.annotations.vendor_workload_repo_basepath}}{{.metadata.annotations.vendor_workload_repo_path}}/cert-manager'
+          repoURL: '{{.metadata.annotations.workload_repo_url}}'
+          targetRevision: '{{.metadata.annotations.workload_repo_revision}}'
+          helm:
+            releaseName: vendor-cert-manager-addon-dependent-resources
+            ignoreMissingValueFiles: true
+            valueFiles:
+              - $values/{{.metadata.annotations.vendor_addon_config_path}}/cert-manager-resources/values.yaml
+              - $values/{{.metadata.annotations.vendor_addon_config_path}}/cert-manager-resources/{{.metadata.labels.environment}}.yaml
+            values: |
+              acme:
+                registrationEmail: {{.metadata.annotations.cert_manager_acme_registration_email}}
+                http01:
+                  enabled: {{.metadata.annotations.enable_ingress_nginx}}
+                  ingressClassName: {{.metadata.annotations.ingress_nginx_ingressclass_name}}
+                dns01:
+                  enabled: {{.metadata.annotations.enable_cert_manager_dns01_designate}}
+      destination:
+        name: '{{.name}}'
+      syncPolicy:
+        automated: {}
+        syncOptions:
+        - CreateNamespace=true

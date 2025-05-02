@@ -1,0 +1,5 @@
+apiVersion: v2
+name: addon-cert-manager-dependent-workload
+description: Cert manager addon specific workload
+type: application
+version: 0.1.0

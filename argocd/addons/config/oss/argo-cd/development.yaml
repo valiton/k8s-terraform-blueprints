@@ -1,3 +1,3 @@
 configs:
   cm:
-    timeout.reconciliation: 30s
+    timeout.reconciliation: 120s

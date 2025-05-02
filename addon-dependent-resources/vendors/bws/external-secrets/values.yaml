@@ -1,0 +1,38 @@
+clusterSecrets:
+  serviceAccountName: secrets
+  namespace: secrets
+  name: secrets
+
+clusterSecretStore:
+  name: cluster-secret-store
+  namespaces:
+    matchLabels:
+      access-cluster-secrets: "true"
+
+externalSecrets:
+  enabled: true
+
+cinderCsiPlugin:
+  enabled: true
+  namespace: cinder-csi-plugin
+  secretName: secret
+  authUrl: https://keystone.example.com:5000
+
+externalDns:
+  enabled: true
+  namespace: external-dns
+  secretName: secret
+  cloudName: cloud
+  authUrl: https://keystone.example.com:5000
+
+certManagerDns01Designate:
+  enabled: true
+  namespace: cert-manager-dns01-designate
+  secretName: secret
+  authUrl: https://keystone.example.com:5000
+
+openstackCloudControllerManager:
+  authUrl: https://keystone.example.com:5000
+  loadBalancer:
+    subnetId: 1234
+    floatingNetworkId: 5678

@@ -1,0 +1,5 @@
+apiVersion: v2
+name: bws-addon-external-secrets-dependent-workload
+description: BWS and External Secrets Addon specific workload
+type: application
+version: 0.1.0
