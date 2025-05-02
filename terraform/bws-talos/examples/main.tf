@@ -39,8 +39,6 @@ module "bws-talos" {
   kube_api_external_ip             = var.kube_api_external_ip
   kube_api_external_port           = var.kube_api_external_port
   talos_secrets                    = local.talos_secrets
-  gitops_addons_revision           = "feature/bws-talos"
-  gitops_workload_revision         = "feature/bws-talos"
 
   worker_instance_flavor       = "BWS-T1-4-16"
   controlplane_instance_flavor = "BWS-T1-4-16"

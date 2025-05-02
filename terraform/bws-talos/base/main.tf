@@ -132,11 +132,6 @@ locals {
     oss-workloads    = file("${path.module}/argocd/oss-workloads.yaml")
   }
 
-  tags = {
-    Blueprint  = local.name
-    GithubRepo = "github.com/valiton/k8s-terraform-blueprints"
-  }
-
   client_configuration = {
     ca_certificate     = var.talos_secrets.certs.os.crt
     client_certificate = base64encode(module.talos-config.talos_client_crt)
@@ -148,7 +143,7 @@ locals {
 # GitOps Bridge: Bootstrap
 ################################################################################
 module "gitops_bridge_bootstrap" {
-  source = "git::https://github.com/valiton-k8s-blueprints/terraform-helm-gitops-bridge.git?ref=feature/timeout_wait"
+  source = "git::https://github.com/valiton-k8s-blueprints/terraform-helm-gitops-bridge.git?ref=main"
 
   depends_on = [data.talos_cluster_health.talos, module.cluster_secrets]
 
