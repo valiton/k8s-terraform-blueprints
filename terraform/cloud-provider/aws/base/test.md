@@ -1,28 +1,3 @@
-# Terraform AWS Base Module
-
-## Overview
-This Terraform module sets up foundational AWS infrastructure, providing a base for deploying workloads on AWS. It follows best practices to ensure security, scalability, and maintainability.
-
-## Features
-- Creates a **VPC** with public and private subnets
-- Creates an **EKS** cluster
-- Configures **IAM roles and policies**
-- Deploys **EC2 instances, security groups, and networking components** that are required to run the tooling services
-
-This setup does not contain any application specific requirements. It focuses simply on Layer 1 that contains the VPC and EKS. 
-
-## Usage
-To use this module, include the following in your Terraform configuration:
-
-```hcl
-module "base" {
-  source = "git::git@github.com:valiton/k8s-terraform-blueprints.git//terraform/cloud-provider/aws/base?ref=main"
-  
-  base_name = "my_project"
-  
-  # Additional configuration...
-}
-```
 ## Requirements
 
 | Name | Version |
@@ -89,14 +64,3 @@ module "base" {
 | <a name="output_vpc_private_subnets_cidr_blocks"></a> [vpc\_private\_subnets\_cidr\_blocks](#output\_vpc\_private\_subnets\_cidr\_blocks) | List of cidr\_blocks of private subnets |
 | <a name="output_vpc_public_subnets"></a> [vpc\_public\_subnets](#output\_vpc\_public\_subnets) | List of IDs of public subnets |
 | <a name="output_vpc_public_subnets_cidr_blocks"></a> [vpc\_public\_subnets\_cidr\_blocks](#output\_vpc\_public\_subnets\_cidr\_blocks) | List of cidr\_blocks of public subnets |
-
-## Best Practices
-- Use **remote state storage** (e.g., S3 + DynamoDB) to manage state files.
-- Follow the **principle of least privilege** when defining IAM roles.
-- Enable **logging and monitoring** with AWS CloudWatch and GuardDuty.
-
-## Contributing
-Feel free to submit **issues and pull requests** to improve this module.
-
-## License
-This module is licensed under the **MIT License**. See the [License](../../../License) file for details.
