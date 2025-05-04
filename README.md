@@ -86,7 +86,7 @@ module "base" {
 }
 ```
 
-For more details, check out the general [AWS base module documentation](./terraform/cloud-provideraws/base/) and the [example folder](./terraform/cloud-provider/aws/examples/).
+For more details, check out the general [AWS base module documentation](./terraform/cloud-provider/aws/base/) and the [example folder](./terraform/cloud-provider/aws/examples/).
 
 ## Contributing
 
