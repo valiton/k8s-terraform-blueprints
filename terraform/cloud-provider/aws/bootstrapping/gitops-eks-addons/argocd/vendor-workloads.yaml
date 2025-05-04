@@ -24,7 +24,6 @@ spec:
         helm:
           values: |
             karpenter:
-              enabled: {{metadata.annotation.enable_karpenter}}
               settings: 
                 clusterName: {{metadata.annotations.aws_cluster_name}}
                 eks_image:

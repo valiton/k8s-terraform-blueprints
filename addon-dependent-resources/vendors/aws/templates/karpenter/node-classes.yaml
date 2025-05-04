@@ -1,4 +1,3 @@
-{{ if .Values.karpenter.enabled }}
 apiVersion: karpenter.k8s.aws/v1
 kind: EC2NodeClass
 metadata:
@@ -43,5 +42,4 @@ spec:
   tags:
     Name: "{{ .Values.karpenter.settings.clusterName }}-karpenter-instance-arm64"
 
-{{ end }}
 
