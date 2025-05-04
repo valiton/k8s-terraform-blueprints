@@ -8,7 +8,7 @@ This module is an addon. This means that the base module should be installed bef
 See the example implementation: [example folder](../../examples/README.md#base-module--gitops-eks-addons)
 
 ## Features
-- Install alls AWS resources that are required by the enabled addons
+- Installs all AWS resources that are required by the enabled addons
 - Installs an intial deployment of argocd, this deployment (gets replaced by argocd applicationset)
 - Creates the ArgoCD cluster secret (including in-cluster)
 - Creates the intial set App of Apps (addons, workloads, etc.)
