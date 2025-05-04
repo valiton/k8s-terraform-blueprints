@@ -13,8 +13,6 @@ See the example implementation: [example folder](../../examples/README.md#base-m
 - Creates the ArgoCD cluster secret (including in-cluster)
 - Creates the intial set App of Apps (addons, workloads, etc.)
 
-This setup does not contain any application specific requirements. It focuses simply on Layer 1 that contains the VPC and EKS. 
-
 ## Usage
 See the example implementation: [example folder](../../examples/README.md#base-module--gitops-eks-addons)
 
