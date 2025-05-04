@@ -88,9 +88,4 @@ variable "kubernetes_version" {
   type        = string
   default     = "1.32"
 }
-variable "karpenter_node_iam_role_arn" {
-  description = "Iam role arn used by Karpenter addon"
-  type        = string
-  default     = null
-}
 
