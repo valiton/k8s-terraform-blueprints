@@ -1,4 +1,40 @@
 
+variable "environment" {
+  default     = "development"
+  type        = string
+  description = "Infrastructure environment name (e.g. development, staging, production)."
+}
+variable "region" {
+  description = "AWS region"
+  type        = string
+  default     = "eu-central-1"
+}
+variable "vpc_id" {
+  description = "ID of the VPC where the cluster security group will be provisioned"
+  type        = string
+}
+variable "eks_cluster_name" {
+  description = "Name of the EKS cluster"
+  type        = string
+}
+variable "eks_cluster_endpoint" {
+  description = "Endpoint for your Kubernetes API server"
+  type        = string
+}
+variable "eks_cluster_version" {
+  description = "Kubernetes `<major>.<minor>` version to use for the EKS cluster (i.e.: `1.32`)"
+  type        = string
+}
+variable "eks_oidc_provider_arn" {
+  description = "The ARN of the cluster OIDC Provider"
+  type        = string
+}
+variable "eks_managed_node_groups" {
+  description = "Map of attribute maps for all EKS managed node groups created"
+  type        = any
+}
+
+
 variable "addons" {
   description = "Kubernetes addons"
   type        = any

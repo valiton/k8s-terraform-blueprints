@@ -1,10 +1,4 @@
-
-provider "aws" {
-  region = local.region
-}
-data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
-
 
 resource "random_integer" "ip_part" {
   min = 0
@@ -89,7 +83,7 @@ module "eks" {
 }
 module "ebs_csi_driver_irsa" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  version = "~> 5.54"
+  version = "5.55.0"
 
   role_name_prefix = "${module.eks.cluster_name}-ebs-csi-"
 
@@ -110,7 +104,7 @@ module "ebs_csi_driver_irsa" {
 ################################################################################
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.19"
+  version = "5.21.0"
 
   name = local.name
   cidr = local.vpc_cidr
