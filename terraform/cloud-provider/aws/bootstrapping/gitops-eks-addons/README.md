@@ -17,7 +17,6 @@ This setup does not contain any application specific requirements. It focuses si
 
 ## Usage
 See the example implementation: [example folder](../../examples/README.md#base-module--gitops-eks-addons)
-```
 
 ## Requirements
 
