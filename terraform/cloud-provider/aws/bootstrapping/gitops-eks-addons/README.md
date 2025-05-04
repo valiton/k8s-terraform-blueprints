@@ -1,3 +1,24 @@
+# Terraform AWS Base Module
+
+## Overview
+This plugin is based on the concept of Gitops-Bridge. This means that the EKS plugins are not deployed into the cluster via Terraform, but only their required AWS resources such as IAM roles etc. are created. The actual plugins are rolled out using the gitOps approach with Argo CD.
+
+## Prerequisite
+This module is an addon. This means that the base module should be installed beforehand.
+See the example implementation: [example folder](../examples/README.md#base-module--gitops-eks-addons)
+
+## Features
+- Install alls AWS resources that are required by the enabled addons
+- Installs an intial deployment of argocd, this deployment (gets replaced by argocd applicationset)
+- Creates the ArgoCD cluster secret (including in-cluster)
+- Creates the intial set App of Apps (addons, workloads, etc.)
+
+This setup does not contain any application specific requirements. It focuses simply on Layer 1 that contains the VPC and EKS. 
+
+## Usage
+See the example implementation: [example folder](../examples/README.md#base-module--gitops-eks-addons)
+```
+
 ## Requirements
 
 | Name | Version |

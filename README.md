@@ -60,20 +60,25 @@ The repository is structured to help you easily locate the cloud-specific Terraf
 
 ```
 k8s-terraform-blueprints/
-├── addon-dependent-resources/
-├── argocd/
-│   └── addons/
-├── terraform/
-│   └── aws/
-│       ├── base/
-│       └── examples/
-├── .gitignore
-└── README.md
-```
+├── License
+├── README.md
+├── addon-dependent-resources
+│   ├── oss
+│   └── vendors
+├── argocd
+│   ├── README.md
+│   └── addons
+├── terraform
+│   └── cloud-provider
+│       └── aws```
 
-The examples folder contains various example implementations. Below is a snippet from the **AWS EKS production minimal example**, which provisions a fully functional VPC and EKS cluster along with layer 2 tooling, following our best practices:
+The examples folder contains various example implementations. Below is a snippet from the **Base Module example**, which provisions a fully functional VPC and EKS cluster following our best practices:
 
 ```hcl
+provider "aws" {
+  region = "eu-central-1"
+}
+
 module "base" {
   source = "git::git@github.com:valiton/k8s-terraform-blueprints.git//terraform/aws/base?ref=main"
  
@@ -81,7 +86,7 @@ module "base" {
 }
 ```
 
-For more details, check out the general [AWS base module documentation](./terraform/aws/base/) and the [eks-prod-minimal folder](./terraform/aws/examples/aws-production/).
+For more details, check out the general [AWS base module documentation](./terraform/cloud-provideraws/base/) and the [example folder](./terraform/aws/examples/).
 
 ## Contributing
 
