@@ -10,27 +10,27 @@ variable "region" {
   default     = "eu-central-1"
 }
 variable "vpc_id" {
-  description = "ID of the VPC where the cluster security group will be provisioned"
+  description = "Base module dependency: ID of the VPC where the cluster security group will be provisioned"
   type        = string
 }
 variable "eks_cluster_name" {
-  description = "Name of the EKS cluster"
+  description = "Base module dependency: Name of the EKS cluster"
   type        = string
 }
 variable "eks_cluster_endpoint" {
-  description = "Endpoint for your Kubernetes API server"
+  description = "Base module dependency: Endpoint for your Kubernetes API server"
   type        = string
 }
 variable "eks_cluster_version" {
-  description = "Kubernetes `<major>.<minor>` version to use for the EKS cluster (i.e.: `1.32`)"
+  description = "Base module dependency: Kubernetes `<major>.<minor>` version to use for the EKS cluster (i.e.: `1.32`) created from the base module"
   type        = string
 }
 variable "eks_oidc_provider_arn" {
-  description = "The ARN of the cluster OIDC Provider"
+  description = "Base module dependency: The ARN of the cluster OIDC Provider created from the base module"
   type        = string
 }
 variable "eks_managed_node_groups" {
-  description = "Map of attribute maps for all EKS managed node groups created"
+  description = "Base module dependency: Map of attribute maps for all EKS managed node groups created from the base module."
   type        = any
 }
 
@@ -153,14 +153,14 @@ variable "route53_zone" {
 #
 # aws ssm get-parameter --name "/aws/service/eks/optimized-ami/1.32/amazon-linux-2023/arm64/standard/recommended/image_id" --region eu-central-1 --query "Parameter.Value" --output text
 variable "eks_image_arm64" {
-  description = "Recommended Amazon Linux AMI ID for AL2023 ARM instances."
+  description = "Karpenter: Recommended Amazon Linux AMI ID for AL2023 ARM instances."
   type        = string
   default     = "ami-09b9ca376adb3607c"
 }
 
 # aws ssm get-parameter --name "/aws/service/eks/optimized-ami/1.32/amazon-linux-2023/x86_64/standard/recommended/image_id" --region eu-central-1 --query "Parameter.Value" --output text
 variable "eks_image_x86_64" {
-  description = "Recommended Amazon Linux AMI ID for AL2023 x86 based instances."
+  description = "Karpenter: Recommended Amazon Linux AMI ID for AL2023 x86 based instances."
   type        = string
   default     = "ami-0239e3e7b036949c1"
 }

@@ -31,13 +31,13 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_addons"></a> [addons](#input\_addons) | Kubernetes addons | `any` | <pre>{<br/>  "enable_aws_ebs_csi_resources": true,<br/>  "enable_aws_efs_csi_driver": true,<br/>  "enable_aws_load_balancer_controller": true,<br/>  "enable_external_dns": true,<br/>  "enable_external_secrets": true,<br/>  "enable_karpenter": true,<br/>  "enable_kube_prometheus_stack": true,<br/>  "enable_metrics_server": true<br/>}</pre> | no |
-| <a name="input_eks_cluster_endpoint"></a> [eks\_cluster\_endpoint](#input\_eks\_cluster\_endpoint) | Endpoint for your Kubernetes API server | `string` | n/a | yes |
-| <a name="input_eks_cluster_name"></a> [eks\_cluster\_name](#input\_eks\_cluster\_name) | Name of the EKS cluster | `string` | n/a | yes |
-| <a name="input_eks_cluster_version"></a> [eks\_cluster\_version](#input\_eks\_cluster\_version) | Kubernetes `<major>.<minor>` version to use for the EKS cluster (i.e.: `1.32`) | `string` | n/a | yes |
-| <a name="input_eks_image_arm64"></a> [eks\_image\_arm64](#input\_eks\_image\_arm64) | Recommended Amazon Linux AMI ID for AL2023 ARM instances. | `string` | `"ami-09b9ca376adb3607c"` | no |
-| <a name="input_eks_image_x86_64"></a> [eks\_image\_x86\_64](#input\_eks\_image\_x86\_64) | Recommended Amazon Linux AMI ID for AL2023 x86 based instances. | `string` | `"ami-0239e3e7b036949c1"` | no |
-| <a name="input_eks_managed_node_groups"></a> [eks\_managed\_node\_groups](#input\_eks\_managed\_node\_groups) | Map of attribute maps for all EKS managed node groups created | `any` | n/a | yes |
-| <a name="input_eks_oidc_provider_arn"></a> [eks\_oidc\_provider\_arn](#input\_eks\_oidc\_provider\_arn) | The ARN of the cluster OIDC Provider | `string` | n/a | yes |
+| <a name="input_eks_cluster_endpoint"></a> [eks\_cluster\_endpoint](#input\_eks\_cluster\_endpoint) | Base module dependency: Endpoint for your Kubernetes API server | `string` | n/a | yes |
+| <a name="input_eks_cluster_name"></a> [eks\_cluster\_name](#input\_eks\_cluster\_name) | Base module dependency: Name of the EKS cluster | `string` | n/a | yes |
+| <a name="input_eks_cluster_version"></a> [eks\_cluster\_version](#input\_eks\_cluster\_version) | Base module dependency: Kubernetes `<major>.<minor>` version to use for the EKS cluster (i.e.: `1.32`) created from the base module | `string` | n/a | yes |
+| <a name="input_eks_image_arm64"></a> [eks\_image\_arm64](#input\_eks\_image\_arm64) | Karpenter: Recommended Amazon Linux AMI ID for AL2023 ARM instances. | `string` | `"ami-09b9ca376adb3607c"` | no |
+| <a name="input_eks_image_x86_64"></a> [eks\_image\_x86\_64](#input\_eks\_image\_x86\_64) | Karpenter: Recommended Amazon Linux AMI ID for AL2023 x86 based instances. | `string` | `"ami-0239e3e7b036949c1"` | no |
+| <a name="input_eks_managed_node_groups"></a> [eks\_managed\_node\_groups](#input\_eks\_managed\_node\_groups) | Base module dependency: Map of attribute maps for all EKS managed node groups created from the base module. | `any` | n/a | yes |
+| <a name="input_eks_oidc_provider_arn"></a> [eks\_oidc\_provider\_arn](#input\_eks\_oidc\_provider\_arn) | Base module dependency: The ARN of the cluster OIDC Provider created from the base module | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | Infrastructure environment name (e.g. development, staging, production). | `string` | `"development"` | no |
 | <a name="input_external_dns_domain_filters"></a> [external\_dns\_domain\_filters](#input\_external\_dns\_domain\_filters) | Limit possible target zones by domain suffixes. | `string` | `"['example.org']"` | no |
 | <a name="input_gitops_addons_org"></a> [gitops\_addons\_org](#input\_gitops\_addons\_org) | Git repository org/user contains for addons | `string` | `"https://github.com/valiton"` | no |
@@ -58,7 +58,7 @@
 | <a name="input_gitops_workload_revision"></a> [gitops\_workload\_revision](#input\_gitops\_workload\_revision) | Git repository revision/branch/ref for workload | `string` | `"main"` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region | `string` | `"eu-central-1"` | no |
 | <a name="input_route53_zone"></a> [route53\_zone](#input\_route53\_zone) | Limit possible route53 zones. | `string` | `"*"` | no |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC where the cluster security group will be provisioned | `string` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | Base module dependency: ID of the VPC where the cluster security group will be provisioned | `string` | n/a | yes |
 
 ## Outputs
 
