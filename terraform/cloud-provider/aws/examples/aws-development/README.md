@@ -9,7 +9,7 @@ This example shows you a simple development deployment for an EKS cluster. You c
 ```tf
 variable "base_name" {
   type    = string
-  default = my-base
+  default = "my-base"
 }
 
 variable "region" {
@@ -46,7 +46,7 @@ output "base" {
 ```tf
 variable "base_name" {
   type    = string
-  default = my-base
+  default = "my-base"
 }
 
 variable "region" {
