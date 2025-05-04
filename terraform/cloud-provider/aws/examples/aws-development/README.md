@@ -18,7 +18,8 @@ variable "region" {
 }
 
 locals {
-  region = var.region
+  region    = var.region
+  base_name = var.base_name
 }
 
 ################################################################################
@@ -34,7 +35,7 @@ provider "aws" {
 module "base" {
   source = "git::https://github.com/valiton/k8s-terraform-blueprints.git//terraform/cloud-provider/aws/base?ref=main"
   region    = local.region
-  base_name = var.base_name
+  base_name = local.base_name
 }
 output "base" {
   value = module.base
@@ -97,7 +98,7 @@ provider "kubernetes" {
 module "base" {
   source = "git::https://github.com/valiton/k8s-terraform-blueprints.git//terraform/cloud-provider/aws/base?ref=main"
   region    = local.region
-  base_name = var.base_name
+  base_name = local.base_name
 }
 output "base" {
   value = module.base
