@@ -5,7 +5,7 @@ This plugin is based on the concept of Gitops-Bridge. This means that the EKS pl
 
 ## Prerequisite
 This module is an addon. This means that the base module should be installed beforehand.
-See the example implementation: [example folder](../examples/README.md#base-module--gitops-eks-addons)
+See the example implementation: [example folder](../../examples/README.md#base-module--gitops-eks-addons)
 
 ## Features
 - Install alls AWS resources that are required by the enabled addons
@@ -16,7 +16,7 @@ See the example implementation: [example folder](../examples/README.md#base-modu
 This setup does not contain any application specific requirements. It focuses simply on Layer 1 that contains the VPC and EKS. 
 
 ## Usage
-See the example implementation: [example folder](../examples/README.md#base-module--gitops-eks-addons)
+See the example implementation: [example folder](../../examples/README.md#base-module--gitops-eks-addons)
 ```
 
 ## Requirements
