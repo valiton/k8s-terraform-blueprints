@@ -5,9 +5,11 @@
 These examples show the possible options:
 
 1. base module only
+
 In this example, only the base setup is executed. It contains the VPC and the EKS CLuster.
 
 2. base module + Gitops EKS addons
+
 In addition to the base module, this example installs all enabled Kubernetes plugins which are installed via the gitOps approach with Argo CD.
 
 ### Base Module only
