@@ -90,7 +90,9 @@ locals {
       vendor_workload_repo_path     = local.gitops_vendor_workload_path
       oss_workload_repo_basepath    = local.gitops_oss_workload_basepath
       oss_workload_repo_path        = local.gitops_oss_workload_path
-
+    },
+    {
+      enable_karpenter = local.aws_addons.enable_karpenter
     }
   )
 

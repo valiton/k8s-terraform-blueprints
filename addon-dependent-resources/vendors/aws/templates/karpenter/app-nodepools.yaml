@@ -1,3 +1,4 @@
+{{ if .Values.karpenter.enabled }}
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
@@ -65,5 +66,5 @@ spec:
   disruption:
     consolidationPolicy: WhenEmptyOrUnderutilized
     consolidateAfter: 1m
-
+{{ end }}
 
