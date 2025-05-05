@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "restapi" {
-  uri = "${var.kkp_api_base_url}"
+  uri = var.kkp_api_base_url
   headers = {
     Authorization = "Bearer ${var.kkp_token}"
     Content-Type  = "application/json"
@@ -51,21 +51,24 @@ resource "restapi_object" "openstack_cluster" {
 
 # Wait for cluster to be up before creating machine deployment
 resource "null_resource" "wait_for_cluster_ready" {
-  depends_on = [restapi_object.openstack_cluster]
-
   provisioner "local-exec" {
     command = "./http_api_request_with_wait_loop.sh"
     interpreter = ["bash", "-c"]
+    ## CAUTION: environment variables will retain values from previous runs, so we need to pass all of them!
     environment = {
       API_URL = "${var.kkp_api_base_url}/api/v2/projects/${var.project_id}/clusters/${restapi_object.openstack_cluster.id}/health"
       API_TOKEN = var.kkp_token
+      API_HTTP_METHOD = "GET"
+      API_ADDITIONAL_HEADERS = ""
       MATCH_HTTP_STATUS_CODE = 200
       MATCH_RESPONSE_JSON_FIELD_SELECTOR = ".machineController"
       MATCH_RESPONSE_JSON_FIELD_VALUE = "HealthStatusUp"
-      TIMEOUT_SECONDS = 300
+      TOTAL_WAIT_TIMEOUT_SECONDS = 300
       DEBUG = 1
     }
   }
+
+  depends_on = [restapi_object.openstack_cluster]
 }
 
 resource "restapi_object" "machine_deployment" {
@@ -98,25 +101,27 @@ resource "restapi_object" "machine_deployment" {
   })
 
   depends_on = [null_resource.wait_for_cluster_ready]
-
 }
 
 resource "null_resource" "wait_for_machines_ready" {
-  depends_on = [restapi_object.machine_deployment]
-
   provisioner "local-exec" {
     command = "./http_api_request_with_wait_loop.sh"
     interpreter = ["bash", "-c"]
+    ## CAUTION: environment variables will retain values from previous runs, so we need to pass all of them!
     environment = {
       API_URL = "${var.kkp_api_base_url}/api/v2/projects/${var.project_id}/clusters/${restapi_object.openstack_cluster.id}/machinedeployments"
       API_TOKEN = var.kkp_token
+      API_HTTP_METHOD = "GET"
+      API_ADDITIONAL_HEADERS = ""
       MATCH_HTTP_STATUS_CODE = 200
       MATCH_RESPONSE_JSON_FIELD_SELECTOR = ".[0].status.readyReplicas"
-      MATCH_RESPONSE_JSON_FIELD_VALUE = "${var.replicas}"
-      TIMEOUT_SECONDS = 900
+      MATCH_RESPONSE_JSON_FIELD_VALUE = var.replicas
+      TOTAL_WAIT_TIMEOUT_SECONDS = 900
       DEBUG = 1
     }
   }
+
+  depends_on = [restapi_object.machine_deployment]
 }
 
 resource "null_resource" "save_cluster_id" {
@@ -134,12 +139,27 @@ resource "null_resource" "delete_cluster" {
     kkp_api_base_url = var.kkp_api_base_url
     project_id       = var.project_id
     kkp_token        = var.kkp_token
+    cluster_id       = restapi_object.openstack_cluster.id
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = "bash ./delete_openstack_cluster.sh ${self.triggers.kkp_api_base_url} ${self.triggers.project_id} ${self.triggers.kkp_token}"
+
+    command = "./http_api_request_with_wait_loop.sh"
+    interpreter = ["bash", "-c"]
+    ## CAUTION: environment variables will retain values from previous runs, so we need to pass all of them!
+    environment = {
+      API_URL = "${self.triggers.kkp_api_base_url}/api/v2/projects/${self.triggers.project_id}/clusters/${self.triggers.cluster_id}"
+      API_TOKEN = self.triggers.kkp_token
+      API_HTTP_METHOD = "DELETE"
+      API_ADDITIONAL_HEADERS = "DeleteVolumes: true\nDeleteLoadBalancers: true"
+      MATCH_HTTP_STATUS_CODE = 200
+      MATCH_RESPONSE_JSON_FIELD_SELECTOR = ""
+      MATCH_RESPONSE_JSON_FIELD_VALUE = ""
+      TOTAL_WAIT_TIMEOUT_SECONDS = 1
+      DEBUG = 1
+    }
   }
 
-  depends_on = [null_resource.save_cluster_id]
+  depends_on = [restapi_object.openstack_cluster]
 }

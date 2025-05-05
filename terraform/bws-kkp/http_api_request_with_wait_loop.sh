@@ -1,11 +1,15 @@
 #!/bin/bash
 
+# disable exit on non-zero return codes of commands.
+set +e
+
 ## Variables must be set in environment.
 ## When MATCH_RESPONSE_JSON_FIELD_SELECTOR is not set or empty, that check will be skipped.
 
 ## Set default values when variables are not set or empty.
 DEBUG=${DEBUG:-"0"}
-TIMEOUT_SECONDS=${TIMEOUT_SECONDS:-600}
+API_HTTP_METHOD=${API_HTTP_METHOD:-"GET"}
+TOTAL_WAIT_TIMEOUT_SECONDS=${TOTAL_WAIT_TIMEOUT_SECONDS:-600}
 MATCH_HTTP_STATUS_CODE=${MATCH_HTTP_STATUS_CODE:-200}
 
 if [[ "$DEBUG" = "1" ]]; then
@@ -13,23 +17,45 @@ if [[ "$DEBUG" = "1" ]]; then
   echo "" >> $DEBUG_LOG_FILE
   echo "API_URL=$API_URL" >> $DEBUG_LOG_FILE
   echo "API_TOKEN=$API_TOKEN" >> $DEBUG_LOG_FILE
+  echo "API_HTTP_METHOD=$API_HTTP_METHOD" >> $DEBUG_LOG_FILE
+  echo "API_ADDITIONAL_HEADERS=$API_ADDITIONAL_HEADERS" >> $DEBUG_LOG_FILE
   echo "MATCH_HTTP_STATUS_CODE=$MATCH_HTTP_STATUS_CODE" >> $DEBUG_LOG_FILE
   echo "MATCH_RESPONSE_JSON_FIELD_SELECTOR=$MATCH_RESPONSE_JSON_FIELD_SELECTOR" >> $DEBUG_LOG_FILE
   echo "MATCH_RESPONSE_JSON_FIELD_VALUE=$MATCH_RESPONSE_JSON_FIELD_VALUE" >> $DEBUG_LOG_FILE
-  echo "TIMEOUT_SECONDS=$TIMEOUT_SECONDS" >> $DEBUG_LOG_FILE
+  echo "TOTAL_WAIT_TIMEOUT_SECONDS=$TOTAL_WAIT_TIMEOUT_SECONDS" >> $DEBUG_LOG_FILE
 fi
 
+# Initialize to an empty array when is not set or empty.
+if [[ "$API_ADDITIONAL_HEADERS" = "" ]]; then
+  headers_array=()
+else
+  # Convert the environment variable to an array.
+  IFS=$'\n' read -r -d '' -a headers_array <<< "$API_ADDITIONAL_HEADERS"
+fi
+
+# Initialize an array to hold the curl headers.
+curl_headers=()
+
+# Add header options to the curl headers array.
+for header in "${headers_array[@]}"; do
+  curl_headers+=(-H "$header")
+  if [[ "$DEBUG" = "1" ]]; then
+    echo "header=$header" >> $DEBUG_LOG_FILE
+  fi
+done
+
+
 loop_iteration_sleep_seconds=10
-loop_iterations=$(awk "BEGIN {print int($TIMEOUT_SECONDS / $loop_iteration_sleep_seconds) + ($TIMEOUT_SECONDS % $loop_iteration_sleep_seconds > 0 ? 1 : 0)}")
+loop_iterations=$(awk "BEGIN {print int($TOTAL_WAIT_TIMEOUT_SECONDS / $loop_iteration_sleep_seconds) + ($TOTAL_WAIT_TIMEOUT_SECONDS % $loop_iteration_sleep_seconds > 0 ? 1 : 0)}")
 
 echo "⏳ Waiting ..."
 for ((i=1; i<=loop_iterations; i++)); do
-  sleep $loop_iteration_sleep_seconds
 
-  response_json=$(curl -s -L \
+  response_json=$(curl -s -L -X $API_HTTP_METHOD \
     "$API_URL" \
     -w "%output{.http_api_request_with_wait_loop_last_http_status_code.txt}%{response_code}" \
-    -H "Authorization: Bearer $API_TOKEN"
+    -H "Authorization: Bearer $API_TOKEN" \
+    "${curl_headers[@]}"
   )
 
   if [[ "$DEBUG" = "1" ]]; then
@@ -57,6 +83,10 @@ for ((i=1; i<=loop_iterations; i++)); do
       echo "✅ Finished."
       exit 0
     fi
+  fi
+
+  if [[ $TOTAL_WAIT_TIMEOUT_SECONDS -ge $loop_iteration_sleep_seconds ]]; then
+    sleep $loop_iteration_sleep_seconds
   fi
 done
 
