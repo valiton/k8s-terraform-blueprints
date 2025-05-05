@@ -2,9 +2,13 @@ local/
 *.tgz
 Chart.lock
 .DS_Store
+.idea
 terragrunt*
 example-workload
 *.tfvars
 .cluster_id
 terraform.tfstate*
+*.tfstate
 .terraform
+.http_api_request_with_wait_loop_debug.log
+.http_api_request_with_wait_loop_last_http_status_code.txt

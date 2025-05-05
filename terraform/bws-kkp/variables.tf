@@ -1,4 +1,4 @@
-variable "kkp_api_url" {}
+variable "kkp_api_base_url" {}
 variable "kkp_token" {}
 variable "project_id" {}
 variable "cluster_name" {}
@@ -16,3 +16,7 @@ variable "os_domain" {}
 
 variable "os_image_name" {}
 variable "os_instance_flavor" {}
+
+variable "replicas" {
+  default = 2
+}

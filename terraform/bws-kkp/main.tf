@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "restapi" {
-  uri = "${var.kkp_api_url}"
+  uri = "${var.kkp_api_base_url}"
   headers = {
     Authorization = "Bearer ${var.kkp_token}"
     Content-Type  = "application/json"
@@ -49,13 +49,22 @@ resource "restapi_object" "openstack_cluster" {
 }
 
 
-
 # Wait for cluster to be up before creating machine deployment
 resource "null_resource" "wait_for_cluster_ready" {
   depends_on = [restapi_object.openstack_cluster]
 
   provisioner "local-exec" {
-    command = "sleep 60"
+    command = "./http_api_request_with_wait_loop.sh"
+    interpreter = ["bash", "-c"]
+    environment = {
+      API_URL = "${var.kkp_api_base_url}/api/v2/projects/${var.project_id}/clusters/${restapi_object.openstack_cluster.id}/health"
+      API_TOKEN = var.kkp_token
+      MATCH_HTTP_STATUS_CODE = 200
+      MATCH_RESPONSE_JSON_FIELD_SELECTOR = ".machineController"
+      MATCH_RESPONSE_JSON_FIELD_VALUE = "HealthStatusUp"
+      TIMEOUT_SECONDS = 300
+      DEBUG = 1
+    }
   }
 }
 
@@ -66,7 +75,7 @@ resource "restapi_object" "machine_deployment" {
   data = jsonencode({
     name       = "openstack-md"
     spec = {
-      replicas   = 2
+      replicas   = var.replicas
         template = {
           cloud      = {
             openstack = {
@@ -78,7 +87,7 @@ resource "restapi_object" "machine_deployment" {
           }
           operatingSystem        = {
             ubuntu = {
-              distUpgradeOnBoot = false 
+              distUpgradeOnBoot = false
             }
           }
           versions = {
@@ -96,7 +105,17 @@ resource "null_resource" "wait_for_machines_ready" {
   depends_on = [restapi_object.machine_deployment]
 
   provisioner "local-exec" {
-    command = "sleep 60"
+    command = "./http_api_request_with_wait_loop.sh"
+    interpreter = ["bash", "-c"]
+    environment = {
+      API_URL = "${var.kkp_api_base_url}/api/v2/projects/${var.project_id}/clusters/${restapi_object.openstack_cluster.id}/machinedeployments"
+      API_TOKEN = var.kkp_token
+      MATCH_HTTP_STATUS_CODE = 200
+      MATCH_RESPONSE_JSON_FIELD_SELECTOR = ".[0].status.readyReplicas"
+      MATCH_RESPONSE_JSON_FIELD_VALUE = "${var.replicas}"
+      TIMEOUT_SECONDS = 900
+      DEBUG = 1
+    }
   }
 }
 
@@ -112,14 +131,14 @@ resource "null_resource" "save_cluster_id" {
 
 resource "null_resource" "delete_cluster" {
   triggers = {
-    kkp_api_url      = var.kkp_api_url
+    kkp_api_base_url = var.kkp_api_base_url
     project_id       = var.project_id
     kkp_token        = var.kkp_token
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = "bash ./delete_openstack_cluster.sh ${self.triggers.kkp_api_url} ${self.triggers.project_id} ${self.triggers.kkp_token}"
+    command = "bash ./delete_openstack_cluster.sh ${self.triggers.kkp_api_base_url} ${self.triggers.project_id} ${self.triggers.kkp_token}"
   }
 
   depends_on = [null_resource.save_cluster_id]
