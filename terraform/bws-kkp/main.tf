@@ -72,7 +72,11 @@ resource "null_resource" "wait_for_cluster_ready" {
 }
 
 resource "restapi_object" "machine_deployment" {
-  provider = restapi
+  create_method  = "POST"
+  read_method    = "GET"
+  update_method  = "PATCH"
+  destroy_method = "DELETE"
+  id_attribute   = "id"
 
   path = "/api/v2/projects/${var.project_id}/clusters/${restapi_object.openstack_cluster.id}/machinedeployments"
   data = jsonencode({
