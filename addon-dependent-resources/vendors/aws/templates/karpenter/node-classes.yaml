@@ -43,6 +43,3 @@ spec:
     Name: "{{ .Values.karpenter.settings.clusterName }}-karpenter-instance-arm64"
 
 
-
-
-
