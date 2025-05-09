@@ -195,47 +195,17 @@ variable "gitops_vendor_addon_config_path" {
   default     = "argocd/addons/config/vendors/bws"
 }
 
-# Workloads Git
-variable "gitops_workload_org" {
-  description = "Git repository org/user contains for workload"
-  type        = string
-  default     = "https://github.com/valiton"
-}
-
-variable "gitops_workload_repo" {
-  description = "Git repository contains for workload"
-  type        = string
-  default     = "k8s-terraform-blueprints"
-}
-
-variable "gitops_workload_revision" {
-  description = "Git repository revision/branch/ref for workload"
+# gitops custom charts
+variable "gitops_custom_charts_revision" {
+  description = "Git repository revision/branch/ref for custom charts"
   type        = string
   default     = "main"
 }
 
-variable "gitops_oss_workload_basepath" {
-  description = "Git repository base path for oss addon resources"
+variable "gitops_custom_charts_repo" {
+  description = "Git repository for custom charts"
   type        = string
-  default     = "addon-dependent-resources/"
-}
-
-variable "gitops_oss_workload_path" {
-  description = "Git repository path for oss addon resources"
-  type        = string
-  default     = "oss"
-}
-
-variable "gitops_vendor_workload_basepath" {
-  description = "Git repository base path for vendor specific addon resources"
-  type        = string
-  default     = "addon-dependent-resources/vendors/"
-}
-
-variable "gitops_vendor_workload_path" {
-  description = "Git repository path for vendor specific addon resources"
-  type        = string
-  default     = "bws"
+  default     = "https://github.com/valiton-k8s-blueprints/charts"
 }
 
 # external dns

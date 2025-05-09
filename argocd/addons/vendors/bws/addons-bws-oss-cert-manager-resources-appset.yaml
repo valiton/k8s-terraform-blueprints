@@ -27,9 +27,9 @@ spec:
         - repoURL: '{{.metadata.annotations.addons_repo_url}}'
           targetRevision: '{{.metadata.annotations.addons_repo_revision}}'
           ref: values
-        - path: '{{.metadata.annotations.vendor_workload_repo_basepath}}{{.metadata.annotations.vendor_workload_repo_path}}/cert-manager'
-          repoURL: '{{.metadata.annotations.workload_repo_url}}'
-          targetRevision: '{{.metadata.annotations.workload_repo_revision}}'
+        - path: 'cert-manager-issuers'
+          repoURL: 'https://github.com/valiton-k8s-blueprints/charts.git'
+          targetRevision: 'feature/bws'
           helm:
             releaseName: vendor-cert-manager-addon-dependent-resources
             ignoreMissingValueFiles: true
@@ -44,6 +44,10 @@ spec:
                   ingressClassName: {{.metadata.annotations.ingress_nginx_ingressclass_name}}
                 dns01:
                   enabled: {{.metadata.annotations.enable_cert_manager_dns01_designate}}
+                  solver:
+                    webhook:
+                      groupName: acme.syseleven.de
+                      solverName: designatedns
       destination:
         name: '{{.name}}'
       syncPolicy:

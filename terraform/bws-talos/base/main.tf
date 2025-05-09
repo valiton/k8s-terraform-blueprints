@@ -18,13 +18,6 @@ locals {
   gitops_oss_addons_path          = var.gitops_oss_addons_path
   gitops_oss_addon_config_path    = var.gitops_oss_addon_config_path
 
-  gitops_workload_url             = "${var.gitops_workload_org}/${var.gitops_workload_repo}"
-  gitops_workload_revision        = var.gitops_workload_revision
-  gitops_vendor_workload_basepath = var.gitops_vendor_workload_basepath
-  gitops_vendor_workload_path     = var.gitops_vendor_workload_path
-  gitops_oss_workload_basepath    = var.gitops_oss_workload_basepath
-  gitops_oss_workload_path        = var.gitops_oss_workload_path
-
   external_secrets_namespace      = try(var.external_secrets.namespace, "external-secrets")
   kube_prometheus_stack_namespace = try(var.kube_prometheus_stack.namespace, "kube-prometheus-stack")
   cinder_csi_plugin_namespace     = try(var.cinder_csi_plugin.namespace, "cinder-csi-plugin")
@@ -70,6 +63,16 @@ locals {
 
   addons_metadata = merge(
     {
+      addons_repo_url             = local.gitops_addons_url
+      addons_repo_revision        = local.gitops_addons_revision
+      vendor_addons_repo_basepath = local.gitops_vendor_addons_basepath
+      vendor_addons_repo_path     = local.gitops_vendor_addons_path
+      vendor_addon_config_path    = local.gitops_vendor_addon_config_path
+      oss_addons_repo_basepath    = local.gitops_oss_addons_basepath
+      oss_addons_repo_path        = local.gitops_oss_addons_path
+      oss_addon_config_path       = local.gitops_oss_addon_config_path
+    },
+    {
       external_secrets_namespace = local.external_secrets_namespace
 
       kube_prometheus_stack_namespace = local.kube_prometheus_stack_namespace
@@ -96,24 +99,6 @@ locals {
       cert_manager_dns01_designate_namespace   = local.cert_manager_dns01_designate_namespace
       cert_manager_dns01_designate_secret_name = local.cert_manager_dns01_designate_secret_name
       enable_cert_manager_dns01_designate      = local.bws_addons.enable_cert_manager_dns01_designate
-    },
-    {
-      addons_repo_url             = local.gitops_addons_url
-      addons_repo_revision        = local.gitops_addons_revision
-      vendor_addons_repo_basepath = local.gitops_vendor_addons_basepath
-      vendor_addons_repo_path     = local.gitops_vendor_addons_path
-      vendor_addon_config_path    = local.gitops_vendor_addon_config_path
-      oss_addons_repo_basepath    = local.gitops_oss_addons_basepath
-      oss_addons_repo_path        = local.gitops_oss_addons_path
-      oss_addon_config_path       = local.gitops_oss_addon_config_path
-    },
-    {
-      workload_repo_url             = local.gitops_workload_url
-      workload_repo_revision        = local.gitops_workload_revision
-      vendor_workload_repo_basepath = local.gitops_vendor_workload_basepath
-      vendor_workload_repo_path     = local.gitops_vendor_workload_path
-      oss_workload_repo_basepath    = local.gitops_oss_workload_basepath
-      oss_workload_repo_path        = local.gitops_oss_workload_path
     },
     {
       cluster_secret_namespace       = module.cluster_secrets.namepace

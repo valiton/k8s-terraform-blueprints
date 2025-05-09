@@ -15,9 +15,9 @@ spec:
     spec:
       project: default
       source:
-        repoURL: '{{.metadata.annotations.workload_repo_url}}'
-        path: '{{.metadata.annotations.vendor_workload_repo_basepath}}{{.metadata.annotations.vendor_workload_repo_path}}/k8s-keystone-auth'
-        targetRevision: '{{.metadata.annotations.workload_repo_revision}}'
+        repoURL: 'https://github.com/valiton-k8s-blueprints/charts.git'
+        path: 'bws/k8s-keystone-auth'
+        targetRevision: 'feature/bws'
         helm:
           releaseName: k8s-keystone-auth
           values: |
