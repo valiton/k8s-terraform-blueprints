@@ -35,8 +35,9 @@ See the example implementation: [example folder](../../examples/README.md#base-m
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_aws_auth"></a> [aws\_auth](#module\_aws\_auth) | terraform-aws-modules/eks/aws//modules/aws-auth | n/a |
 | <a name="module_eks_blueprints_addons"></a> [eks\_blueprints\_addons](#module\_eks\_blueprints\_addons) | aws-ia/eks-blueprints-addons/aws | 1.21.0 |
-| <a name="module_gitops_bridge_bootstrap"></a> [gitops\_bridge\_bootstrap](#module\_gitops\_bridge\_bootstrap) | gitops-bridge-dev/gitops-bridge/helm | 0.1.0 |
+| <a name="module_gitops_bridge_bootstrap"></a> [gitops\_bridge\_bootstrap](#module\_gitops\_bridge\_bootstrap) | git::https://github.com/valiton-k8s-blueprints/terraform-helm-gitops-bridge | main |
 
 ## Resources
 

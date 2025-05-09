@@ -89,3 +89,27 @@ variable "kubernetes_version" {
   default     = "1.32"
 }
 
+variable "cluster_enabled_log_types" {
+  description = "List of the desired control plane logs to enable. For more information, see Amazon EKS Control Plane Logging documentation (https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html)"
+  type        = list(any)
+  default     = []
+}
+
+variable "create_cloudwatch_log_group" {
+  description = "Determines whether a log group is created by this module for the cluster logs. If not, AWS will automatically create one if logging is enabled"
+  type        = bool
+  default     = false
+}
+
+variable "cloudwatch_log_group_retention_in_days" {
+  default     = 30
+  type        = number
+  description = "Number of days to retain log events."
+}
+
+variable "cloudwatch_log_group_class" {
+  default     = null
+  type        = string
+  description = "Specified the log class of the log group. Possible values are: `STANDARD` or `INFREQUENT_ACCESS`"
+}
+

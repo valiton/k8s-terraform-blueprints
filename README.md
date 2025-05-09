@@ -69,8 +69,9 @@ k8s-terraform-blueprints/
 │   ├── README.md
 │   └── addons
 ├── terraform
-│   └── cloud-provider
-│       └── aws```
+    └── cloud-provider
+        └── aws
+```
 
 The examples folder contains various example implementations. Below is a snippet from the **Base Module example**, which provisions a fully functional VPC and EKS cluster following our best practices:
 
