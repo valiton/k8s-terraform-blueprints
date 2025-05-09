@@ -1,4 +1,4 @@
-# Terraform AWS Base Module
+# Terraform AWS Gitops EKS Addons Module
 
 ## Overview
 This plugin is based on the concept of Gitops-Bridge. This means that the EKS plugins are not deployed into the cluster via Terraform, but only their required AWS resources such as IAM roles etc. are created. The actual plugins are rolled out using the gitOps approach with Argo CD.
