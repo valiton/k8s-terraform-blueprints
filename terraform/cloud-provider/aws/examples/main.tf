@@ -56,7 +56,7 @@ provider "kubernetes" {
 # modules
 ################################################################################
 module "base" {
-  source = "git::https://github.com/valiton/k8s-terraform-blueprints.git//terraform/cloud-provider/aws/base?ref=main"
+  source    = "git::https://github.com/valiton/k8s-terraform-blueprints.git//terraform/cloud-provider/aws/base?ref=main"
   region    = local.region
   base_name = local.base_name
 
