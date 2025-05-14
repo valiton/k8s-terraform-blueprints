@@ -1,93 +1,40 @@
+
 variable "environment" {
   default     = "development"
   type        = string
   description = "Infrastructure environment name (e.g. development, staging, production)."
-}
-variable "base_name" {
-  description = "Name of your base infrastructure."
-  type        = string
-  default     = "my-project"
-
-  validation {
-    condition     = can(regex("^[a-z0-9-]+$", var.base_name))
-    error_message = "The base_name must only contain lowercase letters, numbers, and dashes."
-  }
-}
-variable "vpc_cidr" {
-  description = "VPC CIDR, if empty a random CIDR will be chosen"
-  type        = string
-  default     = ""
-}
-variable "azs_count" {
-  description = "Number of availability zones"
-  type        = number
-  default     = 2
-}
-variable "single_nat_gateway" {
-  description = "True if only a single NAT gateway should be deployed instead of one per AZ"
-  type        = bool
-  default     = false
 }
 variable "region" {
   description = "AWS region"
   type        = string
   default     = "eu-central-1"
 }
-
-variable "base_node_group_instance_types" {
-  type        = list(string)
-  default     = ["t4g.medium"]
-  description = "List with instance types that are used in the base node group"
-}
-
-variable "base_node_group_ami_type" {
+variable "vpc_id" {
+  description = "Base module dependency: ID of the VPC where the cluster security group will be provisioned"
   type        = string
-  default     = "AL2023_ARM_64_STANDARD"
-  description = "AMI type used by the base node group"
 }
-
-variable "base_node_group_capacity_type" {
+variable "eks_cluster_name" {
+  description = "Base module dependency: Name of the EKS cluster"
   type        = string
-  default     = "ON_DEMAND"
-  description = "Capacity types used by the base node group"
 }
-
-variable "base_node_group_min_size" {
-  type        = number
-  default     = 1
-  description = "Min instance count of the base node group"
+variable "eks_cluster_endpoint" {
+  description = "Base module dependency: Endpoint for your Kubernetes API server"
+  type        = string
 }
-
-variable "base_node_group_max_size" {
-  type        = number
-  default     = 3
-  description = "Max instance count of the base node group"
+variable "eks_cluster_version" {
+  description = "Base module dependency: Kubernetes `<major>.<minor>` version to use for the EKS cluster (i.e.: `1.32`) created from the base module"
+  type        = string
 }
-
-variable "base_node_group_desired_size" {
-  type        = number
-  default     = 2
-  description = "Initial desired instance count of the base node group"
+variable "eks_oidc_provider_arn" {
+  description = "Base module dependency: The ARN of the cluster OIDC Provider created from the base module"
+  type        = string
 }
-
-variable "base_node_group_labels" {
-  type = any
-  default = {
-    base_nodepool = "base"
-  }
-  description = "Labels of the base node group"
-}
-
 variable "eks_managed_node_groups" {
-  description = "EKS managed nodegroups in addition to the base nodegroup"
+  description = "Base module dependency: Map of attribute maps for all EKS managed node groups created from the base module."
   type        = any
-  default     = {}
 }
-variable "kubernetes_version" {
-  description = "Kubernetes version"
-  type        = string
-  default     = "1.32"
-}
+
+
 variable "addons" {
   description = "Kubernetes addons"
   type        = any
@@ -206,15 +153,14 @@ variable "route53_zone" {
 #
 # aws ssm get-parameter --name "/aws/service/eks/optimized-ami/1.32/amazon-linux-2023/arm64/standard/recommended/image_id" --region eu-central-1 --query "Parameter.Value" --output text
 variable "eks_image_arm64" {
-  description = "Recommended Amazon Linux AMI ID for AL2023 ARM instances."
+  description = "Karpenter: Recommended Amazon Linux AMI ID for AL2023 ARM instances."
   type        = string
   default     = "ami-09b9ca376adb3607c"
 }
 
 # aws ssm get-parameter --name "/aws/service/eks/optimized-ami/1.32/amazon-linux-2023/x86_64/standard/recommended/image_id" --region eu-central-1 --query "Parameter.Value" --output text
 variable "eks_image_x86_64" {
-  description = "Recommended Amazon Linux AMI ID for AL2023 x86 based instances."
+  description = "Karpenter: Recommended Amazon Linux AMI ID for AL2023 x86 based instances."
   type        = string
   default     = "ami-0239e3e7b036949c1"
 }
-
