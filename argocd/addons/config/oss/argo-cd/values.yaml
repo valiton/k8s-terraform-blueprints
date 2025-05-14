@@ -52,9 +52,6 @@ server:
         prometheus.io/scrape: true
   service:
     type: NodePort
-    annotations:
-      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
-      service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
 
 configs:
   repositories:
