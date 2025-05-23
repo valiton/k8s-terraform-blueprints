@@ -5,7 +5,7 @@ locals {
   cluster_version = var.kubernetes_version
 
   base_node_pool = {
-    name               = "${local.name}-ske"
+    name               = "${local.name}"
     os_name            = var.base_node_pool_os_name
     os_version_min     = var.base_node_pool_os_version_min
     max_surge          = var.base_node_pool_max_surge
@@ -42,4 +42,5 @@ resource "stackit_ske_cluster" "managed_cluster" {
   }
 
 }
+
 
