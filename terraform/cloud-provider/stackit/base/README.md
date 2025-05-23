@@ -1,4 +1,4 @@
-# Terraform AWS Base Module
+# Terraform STACKIT Base Module
 
 ## Overview
 This Terraform module sets up a STACKIT SKE cluster, providing a base for deploying workloads on STACKIT. It follows best practices to ensure security, scalability, and maintainability.
