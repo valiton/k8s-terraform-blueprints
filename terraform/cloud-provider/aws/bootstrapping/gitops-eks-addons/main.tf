@@ -34,6 +34,8 @@ locals {
   gitops_oss_workload_basepath    = var.gitops_oss_workload_basepath
   gitops_oss_workload_path        = var.gitops_oss_workload_path
 
+  kube_prometheus_stack_namespace = try(var.kube_prometheus_stack.namespace, "kube-prometheus-stack")
+
   aws_addons = {
     enable_aws_efs_csi_driver           = try(var.addons.enable_aws_efs_csi_driver, false)
     enable_external_dns                 = try(var.addons.enable_external_dns, false)
@@ -90,7 +92,8 @@ locals {
       vendor_workload_repo_path     = local.gitops_vendor_workload_path
       oss_workload_repo_basepath    = local.gitops_oss_workload_basepath
       oss_workload_repo_path        = local.gitops_oss_workload_path
-    }
+    },
+    { kube_prometheus_stack_namespace = local.kube_prometheus_stack_namespace }
   )
 
   argocd_apps = {

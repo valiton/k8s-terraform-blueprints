@@ -164,3 +164,10 @@ variable "eks_image_x86_64" {
   type        = string
   default     = "ami-0239e3e7b036949c1"
 }
+
+# kube-prometheus-stack
+variable "kube_prometheus_stack" {
+  description = "Kube prometheus stack add-on configuration values"
+  type        = any
+  default     = {}
+}
