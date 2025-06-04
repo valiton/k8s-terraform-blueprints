@@ -17,22 +17,8 @@ locals {
 
   external_dns_domain_filters = var.external_dns_domain_filters
 
-  gitops_addons_url               = "${var.gitops_addons_org}/${var.gitops_addons_repo}"
-  gitops_addons_revision          = var.gitops_addons_revision
-  gitops_vendor_addons_basepath   = var.gitops_vendor_addons_basepath
-  gitops_vendor_addons_path       = var.gitops_vendor_addons_path
-  gitops_vendor_addon_config_path = var.gitops_vendor_addon_config_path
-  gitops_oss_addons_basepath      = var.gitops_oss_addons_basepath
-  gitops_oss_addons_path          = var.gitops_oss_addons_path
-  gitops_oss_addon_config_path    = var.gitops_oss_addon_config_path
-
-
-  gitops_workload_url             = "${var.gitops_workload_org}/${var.gitops_workload_repo}"
-  gitops_workload_revision        = var.gitops_workload_revision
-  gitops_vendor_workload_basepath = var.gitops_vendor_workload_basepath
-  gitops_vendor_workload_path     = var.gitops_vendor_workload_path
-  gitops_oss_workload_basepath    = var.gitops_oss_workload_basepath
-  gitops_oss_workload_path        = var.gitops_oss_workload_path
+  gitops_applications_repo_url      = var.gitops_applications_repo_url
+  gitops_applications_repo_revision = var.gitops_applications_repo_revision
 
   kube_prometheus_stack_namespace = try(var.kube_prometheus_stack.namespace, "kube-prometheus-stack")
 
@@ -60,12 +46,14 @@ locals {
     local.aws_addons,
     local.oss_addons,
     { kubernetes_version = local.cluster_version },
-    { aws_cluster_name = local.cluster_name }
+    { aws_cluster_name = local.cluster_name },
+    { cloud_provider = "aws" }
   )
 
   addons_metadata = merge(
     module.eks_blueprints_addons.gitops_metadata,
     {
+      excluded_applications       = "{${join(",", [for key, value in var.addons : replace("${regex("enable_(.+)", key)[0]}.yaml", "_", "-") if !value])}}"
       external_dns_domain_filters = local.external_dns_domain_filters
       aws_cluster_name            = local.cluster_name
       aws_region                  = local.region
@@ -76,31 +64,15 @@ locals {
       eks_image_x86_64            = local.eks_image_x86_64
     },
     {
-      addons_repo_url             = local.gitops_addons_url
-      addons_repo_revision        = local.gitops_addons_revision
-      vendor_addons_repo_basepath = local.gitops_vendor_addons_basepath
-      vendor_addons_repo_path     = local.gitops_vendor_addons_path
-      vendor_addon_config_path    = local.gitops_vendor_addon_config_path
-      oss_addons_repo_basepath    = local.gitops_oss_addons_basepath
-      oss_addons_repo_path        = local.gitops_oss_addons_path
-      oss_addon_config_path       = local.gitops_oss_addon_config_path
+      applications_repo_url      = local.gitops_applications_repo_url
+      applications_repo_revision = local.gitops_applications_repo_revision
     },
-    {
-      workload_repo_url             = local.gitops_workload_url
-      workload_repo_revision        = local.gitops_workload_revision
-      vendor_workload_repo_basepath = local.gitops_vendor_workload_basepath
-      vendor_workload_repo_path     = local.gitops_vendor_workload_path
-      oss_workload_repo_basepath    = local.gitops_oss_workload_basepath
-      oss_workload_repo_path        = local.gitops_oss_workload_path
-    },
-    { kube_prometheus_stack_namespace = local.kube_prometheus_stack_namespace }
+    { kube_prometheus_stack_namespace = local.kube_prometheus_stack_namespace },
+    { cloud_provider = "aws" }
   )
 
   argocd_apps = {
-    vendor-addons    = file("${path.module}/argocd/vendor-addons.yaml")
-    oss-addons       = file("${path.module}/argocd/oss-addons.yaml")
-    vendor-workloads = file("${path.module}/argocd/vendor-workloads.yaml")
-    oss-workloads    = file("${path.module}/argocd/oss-workloads.yaml")
+    applications = file("${path.module}/argocd/applications.yaml")
   }
 
   tags = {

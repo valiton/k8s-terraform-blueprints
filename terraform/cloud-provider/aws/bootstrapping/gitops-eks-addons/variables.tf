@@ -47,93 +47,23 @@ variable "addons" {
     enable_external_dns                 = true
     enable_karpenter                    = true
     enable_kube_prometheus_stack        = true
+    enable_cert_manager                 = false
+    enable_cert_manager_issuers         = false
+    enable_ingress_nginx                = false
   }
 
 }
-# Addons Git
-variable "gitops_addons_org" {
-  description = "Git repository org/user contains for addons"
+# Applications Git
+variable "gitops_applications_repo_url" {
+  description = "Url of Git repository for applications"
   type        = string
-  default     = "https://github.com/valiton"
+  default     = "https://github.com/valiton-k8s-blueprints/argocd"
 }
-variable "gitops_addons_repo" {
-  description = "Git repository contains for addons"
-  type        = string
-  default     = "k8s-terraform-blueprints"
-}
-variable "gitops_addons_revision" {
-  description = "Git repository revision/branch/ref for addons"
+
+variable "gitops_applications_repo_revision" {
+  description = "Git repository revision/branch/ref for applications"
   type        = string
   default     = "main"
-}
-variable "gitops_oss_addons_basepath" {
-  description = "Git repository base path for oss addons"
-  type        = string
-  default     = "argocd/addons/"
-}
-variable "gitops_oss_addons_path" {
-  description = "Git repository path for oss addons"
-  type        = string
-  default     = "oss"
-}
-variable "gitops_oss_addon_config_path" {
-  description = "Git repository path for oss addon configurations"
-  type        = string
-  default     = "argocd/addons/config/oss"
-}
-variable "gitops_vendor_addons_basepath" {
-  description = "Git repository base path for vendor specific addons"
-  type        = string
-  default     = "argocd/addons/vendors/"
-}
-variable "gitops_vendor_addons_path" {
-  description = "Git repository path for vendor specific addons"
-  type        = string
-  default     = "aws"
-}
-variable "gitops_vendor_addon_config_path" {
-  description = "Git repository path for vendor specific addon configurations"
-  type        = string
-  default     = "argocd/addons/config/vendors/aws"
-}
-
-
-
-# Workloads Git
-variable "gitops_workload_org" {
-  description = "Git repository org/user contains for workload"
-  type        = string
-  default     = "https://github.com/valiton"
-}
-variable "gitops_workload_repo" {
-  description = "Git repository contains for workload"
-  type        = string
-  default     = "k8s-terraform-blueprints"
-}
-variable "gitops_workload_revision" {
-  description = "Git repository revision/branch/ref for workload"
-  type        = string
-  default     = "main"
-}
-variable "gitops_oss_workload_basepath" {
-  description = "Git repository base path for oss addon resources"
-  type        = string
-  default     = "addon-dependent-resources/"
-}
-variable "gitops_oss_workload_path" {
-  description = "Git repository path for oss addon resources"
-  type        = string
-  default     = "oss"
-}
-variable "gitops_vendor_workload_basepath" {
-  description = "Git repository base path for vendor specific addon resources"
-  type        = string
-  default     = "addon-dependent-resources/vendors/"
-}
-variable "gitops_vendor_workload_path" {
-  description = "Git repository path for vendor specific addon resources"
-  type        = string
-  default     = "aws"
 }
 
 # external dns

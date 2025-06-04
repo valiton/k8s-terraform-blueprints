@@ -1,0 +1,4 @@
+export STACKIT_SERVICE_ACCOUNT_KEY_PATH="/Users/d425482/.ssh/stackit/sa-key-e4e7173a-d5cd-4a84-bd8c-91a4014b11f5.json"
+export AWS_ACCESS_KEY_ID="KJY5JZK556JJ8CQXKTTR"
+export AWS_SECRET_ACCESS_KEY="1DEUjt3KPNFkuvur2b0cc/RegcwdAhZYvZtIzNa1"
+export AWS_REGION="eu01"
