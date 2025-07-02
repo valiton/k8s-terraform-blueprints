@@ -1,6 +1,6 @@
 # Deprecated
 
-This repo is no longer maintained, we moved the blueprint to it's own organisation: [https://github.com/valiton-k9s](https://github.com/valiton-k8s-blueprints)
+This repo is no longer maintained, we moved the blueprint to it's own organisation: [https://github.com/valiton-k8s-blueprints](https://github.com/valiton-k8s-blueprints)
 
 # Terraform Blueprints for Kubernetes Infrastructures
 
