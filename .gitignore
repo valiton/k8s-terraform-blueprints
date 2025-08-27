@@ -5,3 +5,4 @@ Chart.lock
 terragrunt*
 example-workload
 terraform.tfvars
+serviceaccount.sh
